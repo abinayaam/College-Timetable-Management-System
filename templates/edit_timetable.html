@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block title %}
+Edit Timetable - College Timetable
+{% endblock %}
+
+{% block page_title %}
+Edit Timetable
+{% endblock %}
+
+{% block content %}
+
+<div class="content-card">
+
+    <h2>Edit Timetable</h2>
+
+    <form method="POST">
+
+        <label>Department</label>
+        <input type="text"
+               name="department"
+               value="{{ timetable.get('department', '') }}"
+               required>
+
+        <br><br>
+
+        <label>Year</label>
+        <input type="text"
+               name="year"
+               value="{{ timetable.get('year', '') }}"
+               required>
+
+        <br><br>
+
+        <label>Day</label>
+        <input type="text"
+               name="day"
+               value="{{ timetable.get('day', '') }}"
+               required>
+
+        <br><br>
+
+        <label>Period</label>
+        <input type="text"
+               name="period"
+               value="{{ timetable.get('period', '') }}"
+               required>
+
+        <br><br>
+
+        <label>Start Time</label>
+        <input type="time"
+               name="start_time"
+               value="{{ timetable.get('start_time', '') }}"
+               required>
+
+        <br><br>
+
+        <label>End Time</label>
+        <input type="time"
+               name="end_time"
+               value="{{ timetable.get('end_time', '') }}"
+               required>
+
+        <br><br>
+
+        <label>Subject</label>
+        <input type="text"
+               name="subject"
+               value="{{ timetable.get('subject', '') }}"
+               required>
+
+        <br><br>
+
+        <label>Course Type</label>
+        <input type="text"
+               name="course_type"
+               value="{{ timetable.get('course_type', '') }}"
+               required>
+
+        <br><br>
+        <label>Reason for Change</label>
+<input type="text"
+       name="change_reason"
+       placeholder="Example: Faculty unavailable">
+
+<br><br>
+
+        <button type="submit">
+            Update Timetable
+        </button>
+
+    </form>
+
+</div>
+
+{% endblock %}

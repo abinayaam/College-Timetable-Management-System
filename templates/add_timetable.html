@@ -1,0 +1,1243 @@
+{% extends "base.html" %}
+
+{% block title %}
+Add Timetable
+{% endblock %}
+
+{% block page_title %}
+Add Timetable
+{% endblock %}
+
+{% block content %}
+
+<div class="form-card">
+
+    <div style="margin-bottom:30px;">
+        <h1>Add New Timetable</h1>
+
+        <p class="subtitle">
+            Create a timetable with faculty, batch, lab and OEC details.
+        </p>
+    </div>
+
+
+    <form method="POST" id="timetableForm">
+
+
+        <!-- ===================================================== -->
+        <!-- BASIC INFORMATION -->
+        <!-- ===================================================== -->
+
+        <div class="form-section">
+
+            <div class="form-section-title">
+                BASIC INFORMATION
+            </div>
+
+            <div class="form-grid">
+
+                <div class="form-group">
+
+                    <label>
+                        Department
+                    </label>
+
+                    <input
+                        type="text"
+                        name="department"
+                        placeholder="Example: IT"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Year
+                    </label>
+
+                    <select name="year" required>
+
+                        <option value="">
+                            Select Year
+                        </option>
+
+                        <option value="1">
+                            1st Year
+                        </option>
+
+                        <option value="2">
+                            2nd Year
+                        </option>
+
+                        <option value="3">
+                            3rd Year
+                        </option>
+
+                        <option value="4">
+                            4th Year
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ===================================================== -->
+        <!-- CLASS SCHEDULE -->
+        <!-- ===================================================== -->
+
+        <div class="form-section">
+
+            <div class="form-section-title">
+                CLASS SCHEDULE
+            </div>
+
+            <div class="form-grid">
+
+                <!-- DAY -->
+
+                <div class="form-group">
+
+                    <label>
+                        Day
+                    </label>
+
+                    <select name="day" required>
+
+                        <option value="">
+                            Select Day
+                        </option>
+
+                        <option value="Monday">
+                            Monday
+                        </option>
+
+                        <option value="Tuesday">
+                            Tuesday
+                        </option>
+
+                        <option value="Wednesday">
+                            Wednesday
+                        </option>
+
+                        <option value="Thursday">
+                            Thursday
+                        </option>
+
+                        <option value="Friday">
+                            Friday
+                        </option>
+
+                        <option value="Saturday">
+                            Saturday
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- PERIOD -->
+
+                <div class="form-group">
+
+                    <label>
+                        Period
+                    </label>
+
+                    <select name="period" id="period" required>
+
+                        <option value="">
+                            Select Period
+                        </option>
+
+                        <option value="I">
+                            I
+                        </option>
+
+                        <option value="II">
+                            II
+                        </option>
+
+                        <option value="III">
+                            III
+                        </option>
+
+                        <option value="IV">
+                            IV
+                        </option>
+
+                        <option value="V">
+                            V
+                        </option>
+
+                        <option value="VI">
+                            VI
+                        </option>
+
+                        <option value="VII">
+                            VII
+                        </option>
+
+                        <option value="VIII">
+                            VIII
+                        </option>
+
+                        <!-- TWO PERIOD LABS -->
+
+                        <option value="I-II">
+                            I-II
+                        </option>
+
+                        <option value="III-IV">
+                            III-IV
+                        </option>
+
+                        <option value="V-VI">
+                            V-VI
+                        </option>
+
+                        <option value="VII-VIII">
+                            VII-VIII
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- START TIME -->
+
+                <div class="form-group">
+
+                    <label>
+                        Start Time
+                    </label>
+
+                    <input
+                        type="time"
+                        name="start_time"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- END TIME -->
+
+                <div class="form-group">
+
+                    <label>
+                        End Time
+                    </label>
+
+                    <input
+                        type="time"
+                        name="end_time"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ===================================================== -->
+        <!-- CLASS DETAILS -->
+        <!-- ===================================================== -->
+
+        <div class="form-section">
+
+            <div class="form-section-title">
+                CLASS DETAILS
+            </div>
+
+            <div class="form-grid">
+
+                <!-- SUBJECT -->
+
+                <div class="form-group">
+
+                    <label>
+                        Subject
+                    </label>
+
+                    <input
+                        type="text"
+                        name="subject"
+                        id="subject"
+                        placeholder="Example: AI"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- COURSE TYPE -->
+
+                <div class="form-group">
+
+                    <label>
+                        Course Type
+                    </label>
+
+                    <select
+                        name="course_type"
+                        id="course_type"
+                        required
+                    >
+
+                        <option value="">
+                            Select Course Type
+                        </option>
+
+                        <option value="Core">
+                            Core
+                        </option>
+
+                        <option value="Domain">
+                            Domain
+                        </option>
+
+                        <option value="Vertical">
+                            Vertical
+                        </option>
+
+                        <option value="Lab">
+                            Lab
+                        </option>
+
+                        <option value="Elective">
+                            Elective
+                        </option>
+
+                        <option value="OEC">
+                            OEC
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ===================================================== -->
+        <!-- NORMAL FACULTY / BATCH ALLOCATION -->
+        <!-- ===================================================== -->
+
+        <div
+            class="form-section"
+            id="normalAllocationSection"
+        >
+
+            <div class="form-section-title">
+                FACULTY & BATCH ALLOCATION
+            </div>
+
+            <p style="
+                color:#667085;
+                font-size:13px;
+                margin-bottom:18px;
+            ">
+
+                Assign faculty members to one or more batches.
+                For lab classes, assign the venue for each batch.
+
+            </p>
+
+
+            <div id="allocation-container">
+
+
+                <!-- FIRST ALLOCATION -->
+
+                <div
+                    class="allocation-row"
+                    style="
+                        display:grid;
+                        grid-template-columns:1.3fr 1.5fr 1fr auto;
+                        gap:12px;
+                        align-items:end;
+                        margin-bottom:14px;
+                        padding:18px;
+                        background:#f8fafc;
+                        border:1px solid #e6eaf0;
+                        border-radius:12px;
+                    "
+                >
+
+
+                    <!-- FACULTY -->
+
+                    <div class="form-group">
+
+                        <label>
+                            Faculty
+                        </label>
+
+                        <input
+                            type="text"
+                            name="faculty[]"
+                            class="normal-field"
+                            placeholder="Example: RS"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- BATCH -->
+
+                    <div class="form-group">
+
+                        <label>
+                            Batch
+                        </label>
+
+                        <input
+                            type="text"
+                            name="batch[]"
+                            class="normal-field"
+                            placeholder="Example: A,B"
+                            required
+                        >
+
+                        <small style="
+                            color:#667085;
+                            margin-top:5px;
+                        ">
+                            Enter multiple batches like A,B
+                        </small>
+
+                    </div>
+
+
+                    <!-- VENUE -->
+
+                    <div
+                        class="form-group venue-wrapper"
+                        style="display:none;"
+                    >
+
+                        <label>
+                            Venue
+                        </label>
+
+                        <input
+                            type="text"
+                            name="venue[]"
+                            class="venue-input"
+                            placeholder="Example: UG LAB I"
+                        >
+
+                    </div>
+
+
+                    <!-- REMOVE -->
+
+                    <button
+                        type="button"
+                        class="btn-delete remove-allocation"
+                        style="
+                            border:none;
+                            cursor:pointer;
+                            height:40px;
+                        "
+                    >
+                        Remove
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- ADD NORMAL ALLOCATION -->
+
+            <button
+                type="button"
+                id="addAllocation"
+                class="btn-secondary"
+                style="
+                    border:none;
+                    cursor:pointer;
+                    margin-top:5px;
+                "
+            >
+                + Add Faculty / Batch
+            </button>
+
+        </div>
+
+
+
+        <!-- ===================================================== -->
+        <!-- OEC SECTION -->
+        <!-- ===================================================== -->
+
+        <div
+            class="form-section"
+            id="oecSection"
+            style="display:none;"
+        >
+
+            <div class="form-section-title">
+                OEC COURSE ALLOCATION
+            </div>
+
+
+            <p style="
+                color:#667085;
+                font-size:13px;
+                margin-bottom:18px;
+            ">
+
+                Add all OEC courses available in this period.
+                Students will see only the OEC course they selected.
+
+            </p>
+
+
+            <div id="oec-container">
+
+
+                <!-- FIRST OEC COURSE -->
+
+                <div
+                    class="oec-row"
+                    style="
+                        display:grid;
+                        grid-template-columns:1.3fr 1.3fr 1.3fr auto;
+                        gap:12px;
+                        align-items:end;
+                        margin-bottom:14px;
+                        padding:18px;
+                        background:#f8fafc;
+                        border:1px solid #e6eaf0;
+                        border-radius:12px;
+                    "
+                >
+
+
+                    <!-- OEC COURSE -->
+
+                    <div class="form-group">
+
+                        <label>
+                            OEC Course
+                        </label>
+
+                        <select
+                            name="oec_course[]"
+                            class="oec-field"
+                        >
+
+                            <option value="">
+                                Select OEC Course
+                            </option>
+
+                            <option value="DM">
+                                DM
+                            </option>
+
+                            <option value="PDD">
+                                PDD
+                            </option>
+
+                            <option value="3D Designing">
+                                3D Designing
+                            </option>
+
+                            <option value="DPIOT">
+                                DPIOT
+                            </option>
+
+                            <option value="Robotics">
+                                Robotics
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- FACULTY -->
+
+                    <div class="form-group">
+
+                        <label>
+                            Faculty
+                        </label>
+
+                        <input
+                            type="text"
+                            name="oec_faculty[]"
+                            class="oec-field"
+                            placeholder="Example: CHOOD"
+                        >
+
+                    </div>
+
+
+                    <!-- DEPARTMENT -->
+
+                    <div class="form-group">
+
+                        <label>
+                            Department
+                        </label>
+
+                        <input
+                            type="text"
+                            name="oec_department[]"
+                            class="oec-field"
+                            placeholder="Example: IT"
+                        >
+
+                    </div>
+
+
+                    <!-- REMOVE -->
+
+                    <button
+                        type="button"
+                        class="btn-delete remove-oec"
+                        style="
+                            border:none;
+                            cursor:pointer;
+                            height:40px;
+                        "
+                    >
+                        Remove
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- ADD OEC COURSE -->
+
+            <button
+                type="button"
+                id="addOEC"
+                class="btn-secondary"
+                style="
+                    border:none;
+                    cursor:pointer;
+                    margin-top:5px;
+                "
+            >
+                + Add OEC Course
+            </button>
+
+        </div>
+
+
+
+        <!-- ===================================================== -->
+        <!-- SUBMIT -->
+        <!-- ===================================================== -->
+
+        <div style="
+            margin-top:32px;
+            padding-top:22px;
+            border-top:1px solid #e7ebf1;
+        ">
+
+
+           <button
+    type="submit"
+    formnovalidate
+    class="btn-primary"
+>
+    Save Timetable
+</button>
+
+
+            <a
+                href="{{ url_for('view_timetable') }}"
+                class="btn-secondary"
+                style="margin-left:10px;"
+            >
+                Cancel
+            </a>
+
+        </div>
+
+    </form>
+
+</div>
+
+
+
+<script>
+
+    const courseType =
+        document.getElementById("course_type");
+
+    const period =
+        document.getElementById("period");
+
+    const subject =
+        document.getElementById("subject");
+
+    const normalSection =
+        document.getElementById(
+            "normalAllocationSection"
+        );
+
+    const oecSection =
+        document.getElementById("oecSection");
+
+    const allocationContainer =
+        document.getElementById(
+            "allocation-container"
+        );
+
+    const addAllocationButton =
+        document.getElementById(
+            "addAllocation"
+        );
+
+    const oecContainer =
+        document.getElementById("oec-container");
+
+    const addOECButton =
+        document.getElementById("addOEC");
+
+
+    /* =========================================================
+       COURSE TYPE CHANGE
+    ========================================================= */
+
+    function updateCourseType() {
+
+        const selectedType =
+            courseType.value;
+
+
+        /* =========================
+           OEC
+        ========================= */
+
+        if (selectedType === "OEC") {
+
+            oecSection.style.display = "block";
+
+            normalSection.style.display = "none";
+
+
+            /* Subject becomes optional */
+
+            subject.required = false;
+
+            subject.value = "OEC";
+
+
+            /* OEC supports one period only */
+
+            const selectedPeriod =
+                period.value;
+
+
+            if (
+                selectedPeriod === "I-II" ||
+                selectedPeriod === "III-IV" ||
+                selectedPeriod === "V-VI" ||
+                selectedPeriod === "VII-VIII"
+            ) {
+
+                period.value = "";
+
+                alert(
+                    "OEC can be assigned to one period only."
+                );
+
+            }
+
+
+            /* OEC fields */
+
+            document
+                .querySelectorAll(".oec-field")
+                .forEach(field => {
+
+                    field.required = true;
+
+                });
+
+        }
+
+
+        /* =========================
+           NORMAL COURSE
+        ========================= */
+
+        else {
+
+            oecSection.style.display = "none";
+
+            normalSection.style.display = "block";
+
+
+            subject.required = true;
+
+            if (subject.value === "OEC") {
+                subject.value = "";
+            }
+
+
+            document
+                .querySelectorAll(".oec-field")
+                .forEach(field => {
+
+                    field.required = false;
+
+                });
+
+
+            updateVenueFields();
+
+        }
+
+    }
+
+
+    courseType.addEventListener(
+        "change",
+        updateCourseType
+    );
+
+
+    period.addEventListener(
+        "change",
+        function () {
+
+            if (
+                courseType.value === "OEC"
+                &&
+                (
+                    period.value === "I-II" ||
+                    period.value === "III-IV" ||
+                    period.value === "V-VI" ||
+                    period.value === "VII-VIII"
+                )
+            ) {
+
+                alert(
+                    "OEC can use one period only. Two-period slots are only for Lab."
+                );
+
+                period.value = "";
+
+            }
+
+        }
+    );
+
+
+    /* =========================================================
+       VENUE SHOW / HIDE
+    ========================================================= */
+
+    function updateVenueFields() {
+
+        const isLab =
+            courseType.value === "Lab";
+
+
+        const rows =
+            document.querySelectorAll(
+                ".allocation-row"
+            );
+
+
+        rows.forEach(row => {
+
+            const venueWrapper =
+                row.querySelector(
+                    ".venue-wrapper"
+                );
+
+            const venueInput =
+                row.querySelector(
+                    ".venue-input"
+                );
+
+
+            if (isLab) {
+
+                venueWrapper.style.display =
+                    "flex";
+
+                venueInput.required = true;
+
+            }
+
+            else {
+
+                venueWrapper.style.display =
+                    "none";
+
+                venueInput.required = false;
+
+                venueInput.value = "";
+
+            }
+
+        });
+
+    }
+
+
+    /* =========================================================
+       ADD NORMAL ALLOCATION
+    ========================================================= */
+
+    addAllocationButton.addEventListener(
+        "click",
+        function () {
+
+            const row =
+                document.createElement("div");
+
+
+            row.className =
+                "allocation-row";
+
+
+            row.style.cssText = `
+                display:grid;
+                grid-template-columns:1.3fr 1.5fr 1fr auto;
+                gap:12px;
+                align-items:end;
+                margin-bottom:14px;
+                padding:18px;
+                background:#f8fafc;
+                border:1px solid #e6eaf0;
+                border-radius:12px;
+            `;
+
+
+            row.innerHTML = `
+
+                <div class="form-group">
+
+                    <label>
+                        Faculty
+                    </label>
+
+                    <input
+                        type="text"
+                        name="faculty[]"
+                        class="normal-field"
+                        placeholder="Example: RS"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Batch
+                    </label>
+
+                    <input
+                        type="text"
+                        name="batch[]"
+                        class="normal-field"
+                        placeholder="Example: A,B"
+                        required
+                    >
+
+                    <small style="
+                        color:#667085;
+                        margin-top:5px;
+                    ">
+                        Enter multiple batches like A,B
+                    </small>
+
+                </div>
+
+
+                <div
+                    class="form-group venue-wrapper"
+                    style="display:none;"
+                >
+
+                    <label>
+                        Venue
+                    </label>
+
+                    <input
+                        type="text"
+                        name="venue[]"
+                        class="venue-input"
+                        placeholder="Example: UG LAB II"
+                    >
+
+                </div>
+
+
+                <button
+                    type="button"
+                    class="btn-delete remove-allocation"
+                    style="
+                        border:none;
+                        cursor:pointer;
+                        height:40px;
+                    "
+                >
+                    Remove
+                </button>
+
+            `;
+
+
+            allocationContainer.appendChild(row);
+
+
+            updateVenueFields();
+
+        }
+    );
+
+
+    /* =========================================================
+       REMOVE NORMAL ALLOCATION
+    ========================================================= */
+
+    allocationContainer.addEventListener(
+        "click",
+        function(event) {
+
+            if (
+                event.target.classList.contains(
+                    "remove-allocation"
+                )
+            ) {
+
+                const rows =
+                    document.querySelectorAll(
+                        ".allocation-row"
+                    );
+
+
+                if (rows.length > 1) {
+
+                    event.target
+                        .closest(".allocation-row")
+                        .remove();
+
+                }
+
+                else {
+
+                    alert(
+                        "At least one faculty and batch allocation is required."
+                    );
+
+                }
+
+            }
+
+        }
+    );
+
+
+    /* =========================================================
+       ADD OEC COURSE
+    ========================================================= */
+
+    addOECButton.addEventListener(
+        "click",
+        function () {
+
+            const row =
+                document.createElement("div");
+
+
+            row.className =
+                "oec-row";
+
+
+            row.style.cssText = `
+                display:grid;
+                grid-template-columns:1.3fr 1.3fr 1.3fr auto;
+                gap:12px;
+                align-items:end;
+                margin-bottom:14px;
+                padding:18px;
+                background:#f8fafc;
+                border:1px solid #e6eaf0;
+                border-radius:12px;
+            `;
+
+
+            row.innerHTML = `
+
+                <div class="form-group">
+
+                    <label>
+                        OEC Course
+                    </label>
+
+                    <select
+                        name="oec_course[]"
+                        class="oec-field"
+                        required
+                    >
+
+                        <option value="">
+                            Select OEC Course
+                        </option>
+
+                        <option value="DM">
+                            DM
+                        </option>
+
+                        <option value="PDD">
+                            PDD
+                        </option>
+
+                        <option value="3D Designing">
+                            3D Designing
+                        </option>
+
+                        <option value="DPIOT">
+                            DPIOT
+                        </option>
+
+                        <option value="Robotics">
+                            Robotics
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Faculty
+                    </label>
+
+                    <input
+                        type="text"
+                        name="oec_faculty[]"
+                        class="oec-field"
+                        placeholder="Example: CHOOD"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Department
+                    </label>
+
+                    <input
+                        type="text"
+                        name="oec_department[]"
+                        class="oec-field"
+                        placeholder="Example: CSE"
+                        required
+                    >
+
+                </div>
+
+
+                <button
+                    type="button"
+                    class="btn-delete remove-oec"
+                    style="
+                        border:none;
+                        cursor:pointer;
+                        height:40px;
+                    "
+                >
+                    Remove
+                </button>
+
+            `;
+
+
+            oecContainer.appendChild(row);
+
+        }
+    );
+
+
+    /* =========================================================
+       REMOVE OEC COURSE
+    ========================================================= */
+
+    oecContainer.addEventListener(
+        "click",
+        function(event) {
+
+            if (
+                event.target.classList.contains(
+                    "remove-oec"
+                )
+            ) {
+
+                const rows =
+                    document.querySelectorAll(
+                        ".oec-row"
+                    );
+
+
+                if (rows.length > 1) {
+
+                    event.target
+                        .closest(".oec-row")
+                        .remove();
+
+                }
+
+                else {
+
+                    alert(
+                        "At least one OEC course is required."
+                    );
+
+                }
+
+            }
+
+        }
+    );
+
+
+    /* =========================================================
+       INITIALIZE
+    ========================================================= */
+
+    updateVenueFields();
+
+</script>
+
+{% endblock %}

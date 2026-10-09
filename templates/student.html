@@ -1,0 +1,1357 @@
+{% extends "base.html" %}
+
+{% block title %}
+Full Timetable - College Timetable
+{% endblock %}
+
+{% block page_title %}
+Full Timetable
+{% endblock %}
+
+{% block content %}
+
+<!-- ================= HEADER ================= -->
+
+<div class="welcome-card">
+
+    <h1>📚 Weekly Timetable</h1>
+
+    <p>
+        View your timetable based on your assigned batch and academic details.
+    </p>
+
+</div>
+
+
+<!-- ================= STUDENT INFORMATION ================= -->
+
+<div class="content-card" style="margin-bottom:20px;">
+
+    <div style="
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        flex-wrap:wrap;
+        gap:15px;
+    ">
+
+        <div>
+
+            <h2>
+                {{ session.get("student_name", "Student") }}
+            </h2>
+
+            <p style="
+                color:#667085;
+                margin-top:6px;
+            ">
+                Roll No: {{ session.get("username", "-") }}
+            </p>
+
+        </div>
+
+
+        <div style="
+            display:flex;
+            gap:10px;
+            flex-wrap:wrap;
+        ">
+
+            <!-- BATCH -->
+
+            <span style="
+                background:#eff6ff;
+                color:#2563eb;
+                padding:8px 13px;
+                border-radius:20px;
+                font-size:13px;
+                font-weight:600;
+            ">
+
+                Batch {{ student_batch }}
+
+            </span>
+
+
+            <!-- YEAR -->
+
+            <span style="
+                background:#f2f4f7;
+                color:#344054;
+                padding:8px 13px;
+                border-radius:20px;
+                font-size:13px;
+                font-weight:600;
+            ">
+
+                Year {{ session.get("student_year", "-") }}
+
+            </span>
+
+
+            <!-- DOMAIN -->
+
+            {% if session.get("student_domain") %}
+
+            <span style="
+                background:#ecfdf3;
+                color:#027a48;
+                padding:8px 13px;
+                border-radius:20px;
+                font-size:13px;
+                font-weight:600;
+            ">
+
+                {{ session.get("student_domain") }}
+
+            </span>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+<<!-- ================= STAFF ANNOUNCEMENTS ================= -->
+
+<div class="content-card" style="margin-top:20px;">
+
+    <h2 style="margin-bottom:15px;">
+        📢 Announcements
+    </h2>
+
+    {% if announcements %}
+
+        {% for announcement in announcements %}
+
+        <div style="
+            padding:16px;
+            margin-bottom:12px;
+            border:1px solid #e4e7ec;
+            border-radius:12px;
+            background:#ffffff;
+        ">
+
+            <div style="
+                font-size:16px;
+                font-weight:700;
+                color:#172033;
+                margin-bottom:8px;
+            ">
+                📢 {{ announcement.get("title", "Announcement") }}
+            </div>
+
+            <div style="
+                font-size:14px;
+                color:#475467;
+                line-height:1.6;
+            ">
+                {{ announcement.get("message", "") }}
+            </div>
+
+            <div style="
+                margin-top:8px;
+                font-size:12px;
+                color:#667085;
+            ">
+                🎯 {{ announcement.get("target", "All Students") }}
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    {% else %}
+
+        <div style="
+            padding:25px;
+            text-align:center;
+            color:#98a2b3;
+        ">
+            No announcements available.
+        </div>
+
+    {% endif %}
+
+</div>
+
+<!-- ================= SEARCH ================= -->
+
+<div class="filter-card" style="margin-bottom:20px;">
+
+    <form method="GET">
+
+        <div style="
+            display:flex;
+            gap:12px;
+            flex-wrap:wrap;
+            align-items:center;
+        ">
+
+            <input
+                type="text"
+                name="search"
+                value="{{ search }}"
+                placeholder="Search subject, faculty or OEC..."
+                style="
+                    flex:1;
+                    min-width:250px;
+                    height:44px;
+                    padding:0 14px;
+                    border:1px solid #d0d5dd;
+                    border-radius:8px;
+                    outline:none;
+                    font-size:14px;
+                    background:#ffffff;
+                "
+            >
+
+
+            <button
+                type="submit"
+                class="btn-primary"
+            >
+                🔍 Search
+            </button>
+
+
+            <a
+                href="{{ url_for('student') }}"
+                class="btn-secondary"
+            >
+                Clear
+            </a>
+
+        </div>
+
+    </form>
+
+</div>
+
+
+<!-- ================= WEEKLY SCHEDULE ================= -->
+
+<div class="table-card">
+
+    <div style="
+        margin-bottom:20px;
+    ">
+
+        <div style="
+            display:flex;
+            justify-content:space-between;
+            align-items:flex-start;
+            flex-wrap:wrap;
+            gap:15px;
+        ">
+
+            <div>
+
+                <h2>
+                    Weekly Schedule
+                </h2>
+
+                <p style="
+                    color:#667085;
+                    margin-top:6px;
+                ">
+                    Monday to Saturday
+                </p>
+
+            </div>
+
+
+            <!-- DOWNLOAD BUTTON -->
+
+            <a
+                href="{{ url_for('download_timetable') }}"
+                class="btn-primary"
+                style="
+                    display:inline-flex;
+                    align-items:center;
+                    gap:8px;
+                    padding:10px 16px;
+                    text-decoration:none;
+                    border-radius:8px;
+                    white-space:nowrap;
+                "
+            >
+                📥 Download Timetable
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- HORIZONTAL SCROLL -->
+
+    <div style="
+        width:100%;
+        overflow-x:auto;
+        overflow-y:hidden;
+    ">
+
+        <table style="
+            width:100%;
+            min-width:1250px;
+            border-collapse:collapse;
+            table-layout:fixed;
+        ">
+
+
+            <!-- ================= TABLE HEADER ================= -->
+
+            <thead>
+
+                <tr>
+
+
+                    <!-- DAY -->
+
+                    <th style="
+                        width:90px;
+                        min-width:90px;
+                        padding:14px 8px;
+                        text-align:center;
+                        background:#f8fafc;
+                        border-bottom:1px solid #e4e7ec;
+                        border-right:1px solid #e4e7ec;
+                    ">
+
+                        Day
+
+                    </th>
+
+
+                    <!-- PERIOD I -->
+
+                    <th style="
+                        min-width:140px;
+                        padding:12px 8px;
+                        text-align:center;
+                        background:#f8fafc;
+                        border-bottom:1px solid #e4e7ec;
+                        border-right:1px solid #e4e7ec;
+                    ">
+
+                        <div style="
+                            font-weight:700;
+                            font-size:13px;
+                        ">
+                            Period I
+                        </div>
+
+                        <div style="
+                            margin-top:5px;
+                            font-size:11px;
+                            font-weight:400;
+                            color:#667085;
+                        ">
+                            09:15 - 10:05
+                        </div>
+
+                    </th>
+
+
+                    <!-- PERIOD II -->
+
+                    <th style="
+                        min-width:140px;
+                        padding:12px 8px;
+                        text-align:center;
+                        background:#f8fafc;
+                        border-bottom:1px solid #e4e7ec;
+                        border-right:1px solid #e4e7ec;
+                    ">
+
+                        <div style="
+                            font-weight:700;
+                            font-size:13px;
+                        ">
+                            Period II
+                        </div>
+
+                        <div style="
+                            margin-top:5px;
+                            font-size:11px;
+                            font-weight:400;
+                            color:#667085;
+                        ">
+                            10:05 - 10:55
+                        </div>
+
+                    </th>
+
+
+                    <!-- PERIOD III -->
+
+                    <th style="
+                        min-width:140px;
+                        padding:12px 8px;
+                        text-align:center;
+                        background:#f8fafc;
+                        border-bottom:1px solid #e4e7ec;
+                        border-right:1px solid #e4e7ec;
+                    ">
+
+                        <div style="
+                            font-weight:700;
+                            font-size:13px;
+                        ">
+                            Period III
+                        </div>
+
+                        <div style="
+                            margin-top:5px;
+                            font-size:11px;
+                            font-weight:400;
+                            color:#667085;
+                        ">
+                            11:10 - 12:00
+                        </div>
+
+                    </th>
+
+
+                    <!-- PERIOD IV -->
+
+                    <th style="
+                        min-width:140px;
+                        padding:12px 8px;
+                        text-align:center;
+                        background:#f8fafc;
+                        border-bottom:1px solid #e4e7ec;
+                        border-right:1px solid #e4e7ec;
+                    ">
+
+                        <div style="
+                            font-weight:700;
+                            font-size:13px;
+                        ">
+                            Period IV
+                        </div>
+
+                        <div style="
+                            margin-top:5px;
+                            font-size:11px;
+                            font-weight:400;
+                            color:#667085;
+                        ">
+                            12:00 - 12:50
+                        </div>
+
+                    </th>
+
+
+                    <!-- PERIOD V -->
+
+                    <th style="
+                        min-width:140px;
+                        padding:12px 8px;
+                        text-align:center;
+                        background:#f8fafc;
+                        border-bottom:1px solid #e4e7ec;
+                        border-right:1px solid #e4e7ec;
+                    ">
+
+                        <div style="
+                            font-weight:700;
+                            font-size:13px;
+                        ">
+                            Period V
+                        </div>
+
+                        <div style="
+                            margin-top:5px;
+                            font-size:11px;
+                            font-weight:400;
+                            color:#667085;
+                        ">
+                            01:50 - 02:40
+                        </div>
+
+                    </th>
+
+
+                    <!-- PERIOD VI -->
+
+                    <th style="
+                        min-width:140px;
+                        padding:12px 8px;
+                        text-align:center;
+                        background:#f8fafc;
+                        border-bottom:1px solid #e4e7ec;
+                        border-right:1px solid #e4e7ec;
+                    ">
+
+                        <div style="
+                            font-weight:700;
+                            font-size:13px;
+                        ">
+                            Period VI
+                        </div>
+
+                        <div style="
+                            margin-top:5px;
+                            font-size:11px;
+                            font-weight:400;
+                            color:#667085;
+                        ">
+                            02:40 - 03:30
+                        </div>
+
+                    </th>
+
+
+                    <!-- PERIOD VII -->
+
+                    <th style="
+                        min-width:140px;
+                        padding:12px 8px;
+                        text-align:center;
+                        background:#f8fafc;
+                        border-bottom:1px solid #e4e7ec;
+                        border-right:1px solid #e4e7ec;
+                    ">
+
+                        <div style="
+                            font-weight:700;
+                            font-size:13px;
+                        ">
+                            Period VII
+                        </div>
+
+                        <div style="
+                            margin-top:5px;
+                            font-size:11px;
+                            font-weight:400;
+                            color:#667085;
+                        ">
+                            03:40 - 04:30
+                        </div>
+
+                    </th>
+
+
+                    <!-- PERIOD VIII -->
+
+                    <th style="
+                        min-width:140px;
+                        padding:12px 8px;
+                        text-align:center;
+                        background:#f8fafc;
+                        border-bottom:1px solid #e4e7ec;
+                        border-right:1px solid #e4e7ec;
+                    ">
+
+                        <div style="
+                            font-weight:700;
+                            font-size:13px;
+                        ">
+                            Period VIII
+                        </div>
+
+                        <div style="
+                            margin-top:5px;
+                            font-size:11px;
+                            font-weight:400;
+                            color:#667085;
+                        ">
+                            04:30 - 05:15
+                        </div>
+
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <!-- ================= TABLE BODY ================= -->
+
+            <tbody>
+
+            {% set periods = [
+                "I",
+                "II",
+                "III",
+                "IV",
+                "V",
+                "VI",
+                "VII",
+                "VIII"
+            ] %}
+
+
+            {% set days = [
+                "Monday",
+                "Tuesday",
+                "Wednesday",
+                "Thursday",
+                "Friday",
+                "Saturday"
+            ] %}
+
+
+            {% for day in days %}
+
+            <tr>
+
+
+                <!-- ================= DAY ================= -->
+
+                <td style="
+                    padding:12px 8px;
+                    text-align:center;
+                    font-weight:700;
+                    color:#172033;
+                    background:#f8fafc;
+                    border-right:1px solid #e4e7ec;
+                    border-bottom:1px solid #e4e7ec;
+                ">
+
+                    {{ day[:3].upper() }}
+
+                </td>
+
+
+                <!-- ================= PERIOD LOOP ================= -->
+
+                {% set state = namespace(
+                    skip_next=False
+                ) %}
+
+
+                {% for period in periods %}
+
+
+                    <!-- SKIP SECOND HALF OF LAB -->
+
+                    {% if state.skip_next %}
+
+                        {% set state.skip_next = False %}
+
+                    {% else %}
+
+
+                        <!-- ================= CURRENT CELL ================= -->
+
+                        {% set cell = namespace(
+                            timetable=None,
+                            faculties=[],
+                            venues=[],
+                            span=1
+                        ) %}
+
+
+                        <!-- ================= SEARCH TIMETABLES ================= -->
+
+                        {% for timetable in timetables %}
+
+                            {% if timetable.get("day", "") == day %}
+
+
+                                <!-- NORMALIZE PERIOD -->
+
+                                {% set raw_period = (
+                                    timetable.get("period", "")
+                                    |string
+                                    |upper
+                                    |trim
+                                    |replace(" ", "")
+                                    |replace("–", "-")
+                                    |replace("—", "-")
+                                ) %}
+
+
+                                <!-- NORMALIZE COURSE TYPE -->
+
+                                {% set course_type = (
+                                    timetable.get("course_type", "")
+                                    |string
+                                    |trim
+                                    |lower
+                                ) %}
+
+
+                                <!-- ================================= -->
+                                <!-- OEC ONE-PERIOD -->
+                                <!-- ================================= -->
+
+                                {% if
+                                    raw_period == period
+                                    and course_type == "oec"
+                                %}
+
+                                    {% set oec_match = namespace(
+                                        found=False
+                                    ) %}
+
+
+                                    {% for oec in
+                                        timetable.get("oec_courses", [])
+                                    %}
+
+                                        {% if
+                                            oec.get("course_name")
+                                            in student_oec_courses
+                                        %}
+
+                                            {% set oec_match.found = True %}
+
+                                        {% endif %}
+
+                                    {% endfor %}
+
+
+                                    {% if oec_match.found %}
+
+                                        {% set cell.timetable = timetable %}
+
+                                    {% endif %}
+
+
+                                <!-- ================================= -->
+                                <!-- NORMAL ONE-PERIOD SUBJECT -->
+                                <!-- ================================= -->
+
+                                {% elif raw_period == period %}
+
+                                    {% for allocation in
+                                        timetable.get("allocations", [])
+                                    %}
+
+                                        {% if
+                                            student_batch
+                                            in allocation.get(
+                                                "batches",
+                                                []
+                                            )
+                                        %}
+
+                                            {% set cell.timetable =
+                                                timetable %}
+
+
+                                            <!-- FACULTY -->
+
+                                            {% if allocation.get("faculty") %}
+
+                                                {% set ignored =
+                                                    cell.faculties.append(
+                                                        allocation.get(
+                                                            "faculty"
+                                                        )
+                                                    )
+                                                %}
+
+                                            {% endif %}
+
+
+                                            <!-- VENUE -->
+
+                                            {% if allocation.get("venue") %}
+
+                                                {% set ignored =
+                                                    cell.venues.append(
+                                                        allocation.get(
+                                                            "venue"
+                                                        )
+                                                    )
+                                                %}
+
+                                            {% endif %}
+
+                                        {% endif %}
+
+                                    {% endfor %}
+
+
+                                <!-- ================================= -->
+                                <!-- LAB V-VI -->
+                                <!-- ================================= -->
+
+                                {% elif
+                                    period == "V"
+                                    and course_type == "lab"
+                                    and raw_period in [
+                                        "V-VI",
+                                        "5-6"
+                                    ]
+                                %}
+
+                                    {% for allocation in
+                                        timetable.get("allocations", [])
+                                    %}
+
+                                        {% if
+                                            student_batch
+                                            in allocation.get(
+                                                "batches",
+                                                []
+                                            )
+                                        %}
+
+                                            {% set cell.timetable =
+                                                timetable %}
+
+                                            {% set cell.span = 2 %}
+
+
+                                            <!-- FACULTY -->
+
+                                            {% if allocation.get("faculty") %}
+
+                                                {% set ignored =
+                                                    cell.faculties.append(
+                                                        allocation.get(
+                                                            "faculty"
+                                                        )
+                                                    )
+                                                %}
+
+                                            {% endif %}
+
+
+                                            <!-- VENUE -->
+
+                                            {% if allocation.get("venue") %}
+
+                                                {% set ignored =
+                                                    cell.venues.append(
+                                                        allocation.get(
+                                                            "venue"
+                                                        )
+                                                    )
+                                                %}
+
+                                            {% endif %}
+
+                                        {% endif %}
+
+                                    {% endfor %}
+
+
+                                <!-- ================================= -->
+                                <!-- LAB VII-VIII -->
+                                <!-- ================================= -->
+
+                                {% elif
+                                    period == "VII"
+                                    and course_type == "lab"
+                                    and raw_period in [
+                                        "VII-VIII",
+                                        "7-8"
+                                    ]
+                                %}
+
+                                    {% for allocation in
+                                        timetable.get("allocations", [])
+                                    %}
+
+                                        {% if
+                                            student_batch
+                                            in allocation.get(
+                                                "batches",
+                                                []
+                                            )
+                                        %}
+
+                                            {% set cell.timetable =
+                                                timetable %}
+
+                                            {% set cell.span = 2 %}
+
+
+                                            <!-- FACULTY -->
+
+                                            {% if allocation.get("faculty") %}
+
+                                                {% set ignored =
+                                                    cell.faculties.append(
+                                                        allocation.get(
+                                                            "faculty"
+                                                        )
+                                                    )
+                                                %}
+
+                                            {% endif %}
+
+
+                                            <!-- VENUE -->
+
+                                            {% if allocation.get("venue") %}
+
+                                                {% set ignored =
+                                                    cell.venues.append(
+                                                        allocation.get(
+                                                            "venue"
+                                                        )
+                                                    )
+                                                %}
+
+                                            {% endif %}
+
+                                        {% endif %}
+
+                                    {% endfor %}
+
+                                {% endif %}
+
+                            {% endif %}
+
+                        {% endfor %}
+
+
+                        <!-- ================= MERGE LAB ================= -->
+
+                        {% if cell.span == 2 %}
+
+                            {% set state.skip_next = True %}
+
+                        {% endif %}
+
+
+                        <!-- ================= TABLE CELL ================= -->
+
+                        <td
+                            {% if cell.span == 2 %}
+                                colspan="2"
+                            {% endif %}
+                            style="
+                                padding:8px;
+                                vertical-align:middle;
+                                border-right:1px solid #e4e7ec;
+                                border-bottom:1px solid #e4e7ec;
+                                background:#ffffff;
+                            "
+                        >
+
+
+                            {% if cell.timetable %}
+
+
+                                <!-- ================= CLASS BOX ================= -->
+
+                                <div style="
+                                    min-height:105px;
+                                    padding:12px;
+                                    border:1px solid #dfe3e8;
+                                    border-radius:10px;
+                                    background:#ffffff;
+                                    display:flex;
+                                    flex-direction:column;
+                                    justify-content:center;
+                                    align-items:center;
+                                    text-align:center;
+                                ">
+
+
+                                    <!-- ================================= -->
+                                    <!-- OEC DISPLAY -->
+                                    <!-- ================================= -->
+
+                                    {% if
+                                        cell.timetable.get(
+                                            "course_type",
+                                            ""
+                                        )|lower == "oec"
+                                    %}
+
+
+                                        <!-- OEC TITLE -->
+
+                                        <div style="
+                                            font-size:14px;
+                                            font-weight:700;
+                                            color:#172033;
+                                            line-height:1.35;
+                                            margin-bottom:8px;
+                                        ">
+
+                                            OEC
+
+                                        </div>
+
+
+                                        <!-- OEC COURSES -->
+
+                                        {% for oec in
+                                            cell.timetable.get(
+                                                "oec_courses",
+                                                []
+                                            )
+                                        %}
+
+                                            {% if
+                                                oec.get("course_name")
+                                                in student_oec_courses
+                                            %}
+
+                                                <div style="
+                                                    width:100%;
+                                                    padding:8px;
+                                                    margin-bottom:7px;
+                                                    border:1px solid #e4e7ec;
+                                                    border-radius:8px;
+                                                    background:#fafafa;
+                                                ">
+
+
+                                                    <!-- COURSE NAME -->
+
+                                                    <div style="
+                                                        font-size:13px;
+                                                        font-weight:700;
+                                                        color:#172033;
+                                                        margin-bottom:4px;
+                                                    ">
+
+                                                        {{ oec.get(
+                                                            "course_name",
+                                                            "-"
+                                                        ) }}
+
+                                                    </div>
+
+
+                                                    <!-- FACULTY -->
+
+                                                    <div style="
+                                                        font-size:11px;
+                                                        color:#475467;
+                                                        margin-bottom:3px;
+                                                    ">
+
+                                                        👨‍🏫
+
+                                                        {{ oec.get(
+                                                            "faculty",
+                                                            "-"
+                                                        ) }}
+
+                                                    </div>
+
+
+                                                    <!-- DEPARTMENT -->
+
+                                                    <div style="
+                                                        font-size:11px;
+                                                        color:#667085;
+                                                    ">
+
+                                                        {{ oec.get(
+                                                            "department",
+                                                            "-"
+                                                        ) }}
+
+                                                    </div>
+
+                                                </div>
+
+                                            {% endif %}
+
+                                        {% endfor %}
+
+
+                                        <!-- BATCH -->
+
+                                        <div style="
+                                            font-size:11px;
+                                            color:#667085;
+                                            margin-top:3px;
+                                        ">
+
+                                            Batch {{ student_batch }}
+
+                                        </div>
+
+
+                                    <!-- ================================= -->
+                                    <!-- NORMAL / LAB DISPLAY -->
+                                    <!-- ================================= -->
+
+                                    {% else %}
+
+
+            <!-- SUBJECT -->
+
+<div style="
+    font-size:14px;
+    font-weight:700;
+    color:#172033;
+    line-height:1.35;
+    margin-bottom:8px;
+">
+
+    <button
+    type="button"
+    data-subject="{{ cell.timetable.get('subject', '') | e }}"
+    onclick="showFacultyPhoto(this.dataset.subject)"
+    style="
+        border:none;
+        background:none;
+        color:#2563eb;
+        font-size:14px;
+        font-weight:700;
+        cursor:pointer;
+        text-decoration:underline;
+    "
+>
+    {{ cell.timetable.get("subject", "-") }}
+</button>
+
+</div>
+
+
+                                        <!-- FACULTY -->
+
+                                        {% if cell.faculties %}
+
+                                        <div style="
+                                            font-size:12px;
+                                            color:#475467;
+                                            line-height:1.5;
+                                            margin-bottom:5px;
+                                        ">
+
+                                            👨‍🏫
+
+                                            {{ cell.faculties | join(" / ") }}
+
+                                        </div>
+
+                                        {% endif %}
+
+
+                                        <!-- BATCH -->
+
+                                        <div style="
+                                            font-size:11px;
+                                            color:#667085;
+                                            margin-bottom:5px;
+                                        ">
+
+                                            Batch {{ student_batch }}
+
+                                        </div>
+
+
+                                        <!-- VENUE -->
+
+                                        {% if cell.venues %}
+
+                                        <div style="
+                                            font-size:11px;
+                                            color:#667085;
+                                            line-height:1.4;
+                                        ">
+
+                                            📍
+
+                                            {{ cell.venues | unique | join(" / ") }}
+
+                                        </div>
+
+                                        {% endif %}
+
+
+                                        <!-- LAB -->
+
+                                        {% if
+                                            cell.timetable.get(
+                                                "course_type",
+                                                ""
+                                            )|lower == "lab"
+                                        %}
+
+                                        <div style="
+                                            margin-top:7px;
+                                            font-size:10px;
+                                            font-weight:700;
+                                            color:#2563eb;
+                                            letter-spacing:0.5px;
+                                        ">
+
+                                            LAB
+
+                                        </div>
+
+                                        {% endif %}
+
+
+                                    {% endif %}
+
+                                </div>
+
+
+                            {% else %}
+
+
+                                <!-- ================= EMPTY SLOT ================= -->
+
+                                <div style="
+                                    min-height:105px;
+                                    display:flex;
+                                    align-items:center;
+                                    justify-content:center;
+                                    color:#98a2b3;
+                                    background:#fafafa;
+                                    border:1px dashed #e4e7ec;
+                                    border-radius:10px;
+                                    font-size:12px;
+                                ">
+
+                                    -
+
+                                </div>
+
+
+                            {% endif %}
+
+                        </td>
+
+
+                    {% endif %}
+
+                {% endfor %}
+
+            </tr>
+
+            {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+
+<!-- ================= INFORMATION ================= -->
+
+<div class="content-card" style="
+    margin-top:20px;
+">
+
+    <p style="
+        color:#667085;
+        font-size:13px;
+        margin:0;
+    ">
+
+        ℹ️ Normal classes occupy one period.
+        Lab sessions covering two periods are shown as one merged block.
+        OEC displays only the course selected by the student.
+
+    </p>
+
+</div>
+
+
+<!-- ================= TODAY ================= -->
+
+<div
+    class="content-card"
+    style="
+        margin-top:20px;
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        flex-wrap:wrap;
+        gap:15px;
+    "
+>
+
+    <div>
+
+        <h2>
+            Need today's classes?
+        </h2>
+
+        <p style="
+            color:#667085;
+            margin-top:5px;
+        ">
+
+            Quickly view only today's timetable.
+
+        </p>
+
+    </div>
+
+
+    <a
+        href="{{ url_for('today') }}"
+        class="btn-primary"
+    >
+
+        📅 Today's Timetable
+
+    </a>
+    <a href="{{ url_for('download_timetable') }}">
+    📥 Download Timetable
+</a>
+
+</div>
+<!-- FACULTY PHOTO POPUP -->
+
+<div id="facultyPhotoModal"
+     style="display:none; position:fixed; inset:0;
+            background:rgba(0,0,0,0.6); z-index:9999;
+            align-items:center; justify-content:center;">
+
+    <div style="background:white; padding:25px;
+                border-radius:15px; text-align:center;
+                width:300px; max-width:90%;">
+
+        <button onclick="closeFacultyPhoto()"
+                style="float:right; border:none;
+                       background:none; font-size:22px;
+                       cursor:pointer;">&times;</button>
+
+        <h2 id="facultySubject"></h2>
+
+        <img id="facultyPhoto"
+             src=""
+             alt="Faculty photo"
+             style="width:150px; height:150px;
+                    object-fit:cover; border-radius:50%;
+                    margin:15px auto; display:block;">
+
+        <p id="facultyName"></p>
+    </div>
+</div>
+
+<script>
+function showFacultyPhoto(subject) {
+    let photo = "";
+    let name = "";
+
+    if (subject.includes("AI") ||
+        subject.includes("ARTIFICIAL INTELLIGENCE")) {
+        photo = "{{ url_for('static', filename='faculty_photos/ai_faculty.jpg') }}";
+        name = "AI Faculty";
+    } else if (subject.includes("MWT")) {
+        photo = "{{ url_for('static', filename='faculty_photos/mwt_faculty.jpg') }}";
+        name = "MWT Faculty";
+    } else {
+        alert("Photo is not configured for this subject yet.");
+        return;
+    }
+
+    document.getElementById("facultySubject").textContent = subject;
+    document.getElementById("facultyPhoto").src = photo;
+    document.getElementById("facultyName").textContent = name;
+    document.getElementById("facultyPhotoModal").style.display = "flex";
+}
+
+function closeFacultyPhoto() {
+    document.getElementById("facultyPhotoModal").style.display = "none";
+}
+</script>
+
+{% endblock %}

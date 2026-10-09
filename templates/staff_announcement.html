@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block title %}
+Staff Announcement
+{% endblock %}
+
+{% block page_title %}
+Staff Announcement
+{% endblock %}
+
+{% block content %}
+
+<div class="content-card">
+
+    <h2>📢 Create Announcement</h2>
+
+    <form method="POST">
+
+        <label>Announcement Title</label>
+        <br>
+
+        <input
+            type="text"
+            name="title"
+            placeholder="Example: DBMS Class Update"
+            required
+            style="width:100%; padding:12px; margin-top:8px;"
+        >
+
+        <br><br>
+
+        <label>Message</label>
+        <br>
+
+        <textarea
+            name="message"
+            placeholder="Enter announcement message..."
+            required
+            style="width:100%; height:120px; padding:12px; margin-top:8px;"
+        ></textarea>
+
+        <br><br>
+
+        <label>Target</label>
+        <br>
+
+        <select
+            name="target"
+            required
+            style="width:100%; padding:12px; margin-top:8px;"
+        >
+            <option value="All Students">
+                All Students
+            </option>
+
+            <option value="3rd Year IT">
+                3rd Year IT
+            </option>
+        </select>
+
+        <br><br>
+
+        <button type="submit">
+            📢 Post Announcement
+        </button>
+
+    </form>
+
+</div>
+
+{% endblock %}

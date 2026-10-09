@@ -1,0 +1,216 @@
+{% extends "base.html" %}
+
+{% block title %}
+Dashboard - College Timetable
+{% endblock %}
+
+{% block page_title %}
+Dashboard
+{% endblock %}
+
+{% block content %}
+
+<!-- Welcome -->
+<div class="welcome-card">
+
+    {% if role == "admin" %}
+
+        <h1>Welcome back, Admin 👋</h1>
+
+        <p>
+            Manage the college timetable system from one place.
+        </p>
+
+    {% elif role == "staff" %}
+
+        <h1>Welcome back, {{ username }} 👋</h1>
+
+        <p>
+            Manage timetable schedules and Saturday special periods.
+        </p>
+
+    {% elif role == "student" %}
+
+        <h1>Welcome back, {{ username }} 👋</h1>
+
+        <p>
+            View your classes and upcoming timetable.
+        </p>
+
+    {% endif %}
+
+</div>
+
+
+<!-- Statistics -->
+<div class="stats-grid">
+
+    <div class="stat-card">
+
+        <h3>Today's Classes</h3>
+
+        <p>
+            {{ today_classes }}
+        </p>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <h3>Today</h3>
+
+        <p style="font-size: 21px;">
+            {{ today_day }}
+        </p>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <h3>Total Timetable</h3>
+
+        <p>
+            {{ total_timetables }}
+        </p>
+
+    </div>
+
+</div>
+
+
+<!-- ================= ADMIN ================= -->
+
+{% if role == "admin" %}
+
+<div class="content-card">
+
+    <h2>Admin Quick Actions</h2>
+
+    <p style="color:#667085; margin-top:8px;">
+        Manage timetable records and system activities.
+    </p>
+
+    <div style="
+        margin-top:20px;
+        display:flex;
+        gap:12px;
+        flex-wrap:wrap;
+    ">
+
+        <a
+            href="{{ url_for('view_timetable') }}"
+            class="btn-primary"
+        >
+            📋 View Timetable
+        </a>
+
+    </div>
+
+</div>
+
+{% endif %}
+
+
+<!-- ================= STAFF ================= -->
+
+{% if role == "staff" %}
+
+<div class="content-card">
+
+    <h2>Staff Quick Actions</h2>
+
+    <p style="color:#667085; margin-top:8px;">
+        Manage class schedules and Saturday special periods.
+    </p>
+
+    <div style="
+        margin-top:20px;
+        display:flex;
+        gap:12px;
+        flex-wrap:wrap;
+    ">
+
+        <a
+            href="{{ url_for('add_timetable') }}"
+            class="btn-primary"
+        >
+            + Add Timetable
+        </a>
+
+        <a
+            href="{{ url_for('view_timetable') }}"
+            class="btn-secondary"
+        >
+            📋 Manage Timetable
+        </a>
+
+    </div>
+
+</div>
+
+
+<div class="content-card" style="margin-top:20px;">
+
+    <h2>Saturday Special Period</h2>
+
+    <p style="color:#667085; margin-top:8px;">
+        Book an available Saturday period before Thursday.
+        The first successful booking gets priority.
+    </p>
+
+    <div style="margin-top:20px;">
+
+      <a href="{{ url_for('saturday_booking') }}"
+   class="btn-primary">
+    📅 Saturday Booking
+</a>
+
+    </div>
+
+</div>
+
+{% endif %}
+
+
+<!-- ================= STUDENT ================= -->
+
+{% if role == "student" %}
+
+<div class="content-card">
+
+    <h2>Student Quick Actions</h2>
+
+    <p style="color:#667085; margin-top:8px;">
+        View your timetable and today's classes.
+    </p>
+
+    <div style="
+        margin-top:20px;
+        display:flex;
+        gap:12px;
+        flex-wrap:wrap;
+    ">
+
+        <a
+            href="{{ url_for('today') }}"
+            class="btn-primary"
+        >
+            📅 Today's Timetable
+        </a>
+
+        <a
+            href="{{ url_for('student') }}"
+            class="btn-secondary"
+        >
+            🗓 Full Timetable
+        </a>
+
+    </div>
+
+</div>
+
+{% endif %}
+
+{% endblock %}

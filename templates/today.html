@@ -1,0 +1,348 @@
+{% extends "base.html" %}
+
+{% block title %}
+Today's Timetable
+{% endblock %}
+
+{% block page_title %}
+Today's Timetable
+{% endblock %}
+
+{% block content %}
+
+<!-- Page Header -->
+<div class="welcome-card">
+
+    <h1>📅 Today's Timetable</h1>
+
+    <p>
+        Classes scheduled for {{ today_day }}
+    </p>
+
+</div>
+
+
+<!-- Next Class -->
+{% if next_class %}
+
+<div class="content-card" style="
+    margin-bottom: 25px;
+    border-left: 5px solid #2563eb;
+">
+
+    <div style="
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 20px;
+        flex-wrap: wrap;
+    ">
+
+        <div>
+
+            <p style="
+                color: #2563eb;
+                font-weight: 700;
+                margin-bottom: 8px;
+            ">
+                NEXT CLASS
+            </p>
+
+            <h2>
+                {{ next_class.subject }}
+            </h2>
+
+            <p style="
+                color: #6b7280;
+                margin-top: 8px;
+            ">
+                {{ next_class.start_time }}
+                -
+                {{ next_class.end_time }}
+            </p>
+
+        </div>
+
+
+        <div style="
+            text-align: right;
+            color: #4b5563;
+        ">
+
+            <p>
+                👨‍🏫 {{ next_class.faculty }}
+            </p>
+
+            <p style="margin-top: 7px;">
+                📍 {{ next_class.venue }}
+            </p>
+
+            <p style="margin-top: 7px;">
+                Batch {{ next_class.batch }}
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% else %}
+
+<div class="content-card" style="
+    margin-bottom: 25px;
+    border-left: 5px solid #10b981;
+">
+
+    <h2>🎉 No More Classes Today</h2>
+
+    <p style="
+        color: #6b7280;
+        margin-top: 8px;
+    ">
+        You have completed today's scheduled classes.
+    </p>
+
+</div>
+
+{% endif %}
+
+
+<!-- Search and Filter -->
+<div class="filter-card">
+
+    <div style="margin-bottom: 15px;">
+
+        <h2>Search & Filter</h2>
+
+        <p style="
+            color: #6b7280;
+            margin-top: 5px;
+        ">
+            Find today's classes quickly.
+        </p>
+
+    </div>
+
+
+    <form method="GET">
+
+        <div style="
+            display: grid;
+            grid-template-columns: 2fr 1fr auto;
+            gap: 12px;
+        ">
+
+            <input
+                type="text"
+                name="search"
+                placeholder="Search subject, faculty or venue..."
+                value="{{ search }}"
+                style="
+                    padding: 11px;
+                    border: 1px solid #d1d5db;
+                    border-radius: 8px;
+                "
+            >
+
+
+            <select
+                name="batch"
+                style="
+                    padding: 11px;
+                    border: 1px solid #d1d5db;
+                    border-radius: 8px;
+                "
+            >
+
+                <option value="">
+                    All Batches
+                </option>
+
+                {% for batch_name in ["A", "B", "C", "D", "E", "F", "G"] %}
+
+                    <option
+                        value="{{ batch_name }}"
+                        {% if selected_batch == batch_name %}
+                            selected
+                        {% endif %}
+                    >
+                        Batch {{ batch_name }}
+                    </option>
+
+                {% endfor %}
+
+            </select>
+
+
+            <button
+                type="submit"
+                class="btn-primary"
+            >
+                🔍 Apply
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
+
+
+<!-- Today's Classes Table -->
+<div class="table-card">
+
+    <div style="
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    ">
+
+        <div>
+
+            <h2>
+                Today's Classes
+            </h2>
+
+            <p style="
+                color: #6b7280;
+                margin-top: 5px;
+            ">
+                {{ timetables|length }} class(es) scheduled
+            </p>
+
+        </div>
+
+
+        <a
+            href="{{ url_for('student') }}"
+            style="
+                color: #2563eb;
+                font-weight: 600;
+                font-size: 14px;
+            "
+        >
+            View Full Timetable →
+        </a>
+
+    </div>
+
+
+    {% if timetables %}
+
+    <table>
+
+        <thead>
+
+            <tr>
+
+                <th>Period</th>
+                <th>Time</th>
+                <th>Subject</th>
+                <th>Faculty</th>
+                <th>Batch</th>
+                <th>Venue</th>
+                <th>Course Type</th>
+
+            </tr>
+
+        </thead>
+
+
+        <tbody>
+
+        {% for timetable in timetables %}
+
+            <tr>
+
+                <td>
+                    <strong>
+                        {{ timetable.period }}
+                    </strong>
+                </td>
+
+
+                <td>
+                    {{ timetable.start_time }}
+                    -
+                    {{ timetable.end_time }}
+                </td>
+
+
+                <td>
+                    <strong>
+                        {{ timetable.subject }}
+                    </strong>
+                </td>
+
+
+                <td>
+                    {{ timetable.faculty }}
+                </td>
+
+
+                <td>
+
+                    <span style="
+                        background: #eef4ff;
+                        padding: 5px 9px;
+                        border-radius: 6px;
+                        font-weight: 600;
+                    ">
+                        {{ timetable.batch }}
+                    </span>
+
+                </td>
+
+
+                <td>
+                    📍 {{ timetable.venue }}
+                </td>
+
+
+                <td>
+                    {{ timetable.course_type }}
+                </td>
+
+            </tr>
+
+        {% endfor %}
+
+        </tbody>
+
+    </table>
+
+
+    {% else %}
+
+    <div style="
+        text-align: center;
+        padding: 60px 20px;
+    ">
+
+        <div style="
+            font-size: 45px;
+            margin-bottom: 15px;
+        ">
+            📅
+        </div>
+
+        <h3>
+            No Classes Found
+        </h3>
+
+        <p style="
+            color: #6b7280;
+            margin-top: 8px;
+        ">
+            There are no timetable records matching your search.
+        </p>
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}
