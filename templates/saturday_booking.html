@@ -1,29 +1,19 @@
 {% extends "base.html" %}
-
 {% block title %}
 Saturday Period Booking
 {% endblock %}
-
 {% block page_title %}
 Saturday Period Booking
 {% endblock %}
-
 {% block content %}
-
 <div class="welcome-card">
-
     <h1>Saturday Period Booking</h1>
-
     <p>
         Thursday to Saturday booking is available.
         The first successful booking gets priority.
     </p>
-
 </div>
-
-
 {% if error %}
-
 <div style="
     background:#fef2f2;
     color:#b42318;
@@ -34,14 +24,8 @@ Saturday Period Booking
 ">
     {{ error }}
 </div>
-
 {% endif %}
-
-
-<!-- BOOKING STATUS -->
-
 <div class="content-card" style="margin-bottom:20px;">
-
     <div style="
         display:flex;
         justify-content:space-between;
@@ -49,20 +33,16 @@ Saturday Period Booking
         flex-wrap:wrap;
         gap:15px;
     ">
-
         <div>
-
             <h2>
                 Saturday
             </h2>
-
             <p style="
                 color:#667085;
                 margin-top:6px;
             ">
                 Date: {{ saturday_date }}
             </p>
-
             <p style="
                 color:#667085;
                 margin-top:4px;
@@ -70,12 +50,8 @@ Saturday Period Booking
                 Booking closes:
                 {{ deadline.strftime("%d-%m-%Y %I:%M %p") }}
             </p>
-
         </div>
-
-
         {% if booking_open %}
-
         <span style="
             background:#ecfdf3;
             color:#027a48;
@@ -86,9 +62,7 @@ Saturday Period Booking
         ">
             Booking Open
         </span>
-
         {% else %}
-
         <span style="
             background:#fef2f2;
             color:#b42318;
@@ -99,22 +73,12 @@ Saturday Period Booking
         ">
             Booking Closed
         </span>
-
         {% endif %}
-
     </div>
-
 </div>
-
-
-<!-- BOOK A PERIOD -->
-
 {% if booking_open %}
-
 <div class="form-card" style="margin-bottom:25px;">
-
     <h2>Book a Saturday Period</h2>
-
     <p style="
         color:#667085;
         margin-top:7px;
@@ -122,22 +86,14 @@ Saturday Period Booking
     ">
         Select an available period and enter the subject.
     </p>
-
-
     <form method="POST">
-
         <div class="form-grid">
-
             <div class="form-group">
-
                 <label>Period</label>
-
                 <select name="period" required>
-
                     <option value="">
                         Select Period
                     </option>
-
                     {% for period in [
                         "I",
                         "II",
@@ -148,62 +104,37 @@ Saturday Period Booking
                         "VII",
                         "VIII"
                     ] %}
-
                         {% if period not in booked_periods %}
-
                         <option value="{{ period }}">
                             Period {{ period }}
                         </option>
-
                         {% endif %}
-
                     {% endfor %}
-
                 </select>
-
             </div>
-
-
             <div class="form-group">
-
                 <label>Subject</label>
-
                 <input
                     type="text"
                     name="subject"
                     placeholder="Example: AI"
                     required
                 >
-
             </div>
-
         </div>
-
-
         <div style="margin-top:25px;">
-
             <button
                 type="submit"
                 class="btn-primary"
             >
                 Book Period
             </button>
-
         </div>
-
     </form>
-
 </div>
-
 {% endif %}
-
-
-<!-- PERIOD STATUS -->
-
 <div class="table-card" style="margin-bottom:25px;">
-
     <h2>Saturday Period Status</h2>
-
     <p style="
         color:#667085;
         margin-top:6px;
@@ -211,12 +142,8 @@ Saturday Period Booking
     ">
         Available and already booked periods.
     </p>
-
-
     <table>
-
         <thead>
-
             <tr>
                 <th>Period</th>
                 <th>Status</th>
@@ -224,12 +151,8 @@ Saturday Period Booking
                 <th>Staff</th>
                 <th>Booked At</th>
             </tr>
-
         </thead>
-
-
         <tbody>
-
         {% for period in [
             "I",
             "II",
@@ -240,31 +163,18 @@ Saturday Period Booking
             "VII",
             "VIII"
         ] %}
-
             {% set current_booking = namespace(data=None) %}
-
             {% for booking in booked_slots %}
-
                 {% if booking.period == period %}
-
                     {% set current_booking.data = booking %}
-
                 {% endif %}
-
             {% endfor %}
-
-
             <tr>
-
                 <td>
                     <strong>Period {{ period }}</strong>
                 </td>
-
-
                 {% if current_booking.data %}
-
                     <td>
-
                         <span style="
                             background:#ecfdf3;
                             color:#027a48;
@@ -275,25 +185,18 @@ Saturday Period Booking
                         ">
                             Booked
                         </span>
-
                     </td>
-
                     <td>
                         {{ current_booking.data.subject }}
                     </td>
-
                     <td>
                         {{ current_booking.data.staff_name }}
                     </td>
-
                     <td>
                         {{ current_booking.data.booked_at }}
                     </td>
-
                 {% else %}
-
                     <td>
-
                         <span style="
                             background:#f2f4f7;
                             color:#475467;
@@ -304,32 +207,18 @@ Saturday Period Booking
                         ">
                             Available
                         </span>
-
                     </td>
-
                     <td>-</td>
                     <td>-</td>
                     <td>-</td>
-
                 {% endif %}
-
             </tr>
-
         {% endfor %}
-
         </tbody>
-
     </table>
-
 </div>
-
-
-<!-- MY BOOKINGS -->
-
 <div class="table-card">
-
     <h2>My Bookings</h2>
-
     <p style="
         color:#667085;
         margin-top:6px;
@@ -337,59 +226,37 @@ Saturday Period Booking
     ">
         Periods booked by you.
     </p>
-
-
     {% set my_bookings = [] %}
-
     {% for booking in booked_slots %}
-
         {% if booking.staff_username == session.get("username") %}
-
             {% set ignored = my_bookings.append(booking) %}
-
         {% endif %}
-
     {% endfor %}
-
-
     {% if my_bookings %}
-
     <table>
-
         <thead>
-
             <tr>
                 <th>Period</th>
                 <th>Subject</th>
                 <th>Booked At</th>
                 <th>Action</th>
             </tr>
-
         </thead>
-
-
         <tbody>
-
         {% for booking in my_bookings %}
-
             <tr>
-
                 <td>
                     <strong>
                         Period {{ booking.period }}
                     </strong>
                 </td>
-
                 <td>
                     {{ booking.subject }}
                 </td>
-
                 <td>
                     {{ booking.booked_at }}
                 </td>
-
                 <td>
-
                     <a
                         href="{{ url_for(
                             'cancel_saturday_booking',
@@ -404,37 +271,24 @@ Saturday Period Booking
                     >
                         Cancel
                     </a>
-
                 </td>
-
             </tr>
-
         {% endfor %}
-
         </tbody>
-
     </table>
-
     {% else %}
-
     <div style="
         text-align:center;
         padding:35px 20px;
         color:#667085;
     ">
-
         <h3>
             No bookings yet
         </h3>
-
         <p style="margin-top:7px;">
             You have not booked any Saturday periods.
         </p>
-
     </div>
-
     {% endif %}
-
 </div>
-
 {% endblock %}

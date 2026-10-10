@@ -1,26 +1,18 @@
 {% extends "base.html" %}
-
 {% block title %}
 AI Timetable Assistant
 {% endblock %}
-
 {% block page_title %}
 AI Timetable Assistant
 {% endblock %}
-
 {% block content %}
-
 <div class="content-card">
-
     <h2>🤖 AI Timetable Assistant</h2>
-
     <p style="color:#667085;">
         Ask me anything about your timetable.
     </p>
-
     <form method="GET"
           action="{{ url_for('ai_assistant') }}">
-
         <input
             type="text"
             name="question"
@@ -36,18 +28,12 @@ AI Timetable Assistant
                 box-sizing:border-box;
             "
         >
-
         <br><br>
-
         <button type="submit">
             🤖 Ask Assistant
         </button>
-
     </form>
-
-
     {% if answer %}
-
     <div style="
         margin-top:25px;
         padding:18px;
@@ -55,17 +41,11 @@ AI Timetable Assistant
         background:#f5f7fa;
         border:1px solid #d0d5dd;
     ">
-
         <h3>🤖 Assistant</h3>
-
         <p>
             {{ answer }}
         </p>
-
     </div>
-
     {% endif %}
-
 </div>
-
 {% endblock %}

@@ -1,32 +1,18 @@
 {% extends "base.html" %}
-
 {% block title %}
 Full Timetable - College Timetable
 {% endblock %}
-
 {% block page_title %}
 Full Timetable
 {% endblock %}
-
 {% block content %}
-
-<!-- ================= HEADER ================= -->
-
 <div class="welcome-card">
-
     <h1>📚 Weekly Timetable</h1>
-
     <p>
         View your timetable based on your assigned batch and academic details.
     </p>
-
 </div>
-
-
-<!-- ================= STUDENT INFORMATION ================= -->
-
 <div class="content-card" style="margin-bottom:20px;">
-
     <div style="
         display:flex;
         justify-content:space-between;
@@ -34,31 +20,22 @@ Full Timetable
         flex-wrap:wrap;
         gap:15px;
     ">
-
         <div>
-
             <h2>
                 {{ session.get("student_name", "Student") }}
             </h2>
-
             <p style="
                 color:#667085;
                 margin-top:6px;
             ">
                 Roll No: {{ session.get("username", "-") }}
             </p>
-
         </div>
-
-
         <div style="
             display:flex;
             gap:10px;
             flex-wrap:wrap;
         ">
-
-            <!-- BATCH -->
-
             <span style="
                 background:#eff6ff;
                 color:#2563eb;
@@ -67,14 +44,8 @@ Full Timetable
                 font-size:13px;
                 font-weight:600;
             ">
-
                 Batch {{ student_batch }}
-
             </span>
-
-
-            <!-- YEAR -->
-
             <span style="
                 background:#f2f4f7;
                 color:#344054;
@@ -87,12 +58,7 @@ Full Timetable
                 Year {{ session.get("student_year", "-") }}
 
             </span>
-
-
-            <!-- DOMAIN -->
-
             {% if session.get("student_domain") %}
-
             <span style="
                 background:#ecfdf3;
                 color:#027a48;
@@ -101,30 +67,20 @@ Full Timetable
                 font-size:13px;
                 font-weight:600;
             ">
-
                 {{ session.get("student_domain") }}
 
             </span>
-
             {% endif %}
-
         </div>
-
     </div>
-
 </div>
-<<!-- ================= STAFF ANNOUNCEMENTS ================= -->
-
+<!-- ================= STAFF ANNOUNCEMENTS ================= -->
 <div class="content-card" style="margin-top:20px;">
-
     <h2 style="margin-bottom:15px;">
         📢 Announcements
     </h2>
-
     {% if announcements %}
-
         {% for announcement in announcements %}
-
         <div style="
             padding:16px;
             margin-bottom:12px;
@@ -230,8 +186,6 @@ Full Timetable
 </div>
 
 
-<!-- ================= WEEKLY SCHEDULE ================= -->
-
 <div class="table-card">
 
     <div style="
@@ -260,10 +214,6 @@ Full Timetable
                 </p>
 
             </div>
-
-
-            <!-- DOWNLOAD BUTTON -->
-
             <a
                 href="{{ url_for('download_timetable') }}"
                 class="btn-primary"
@@ -283,10 +233,6 @@ Full Timetable
         </div>
 
     </div>
-
-
-    <!-- HORIZONTAL SCROLL -->
-
     <div style="
         width:100%;
         overflow-x:auto;
@@ -299,9 +245,6 @@ Full Timetable
             border-collapse:collapse;
             table-layout:fixed;
         ">
-
-
-            <!-- ================= TABLE HEADER ================= -->
 
             <thead>
 
@@ -323,9 +266,6 @@ Full Timetable
                         Day
 
                     </th>
-
-
-                    <!-- PERIOD I -->
 
                     <th style="
                         min-width:140px;
@@ -353,10 +293,6 @@ Full Timetable
                         </div>
 
                     </th>
-
-
-                    <!-- PERIOD II -->
-
                     <th style="
                         min-width:140px;
                         padding:12px 8px;
@@ -413,9 +349,6 @@ Full Timetable
                         </div>
 
                     </th>
-
-
-                    <!-- PERIOD IV -->
 
                     <th style="
                         min-width:140px;
@@ -567,10 +500,6 @@ Full Timetable
                 </tr>
 
             </thead>
-
-
-            <!-- ================= TABLE BODY ================= -->
-
             <tbody>
 
             {% set periods = [
@@ -599,9 +528,6 @@ Full Timetable
 
             <tr>
 
-
-                <!-- ================= DAY ================= -->
-
                 <td style="
                     padding:12px 8px;
                     text-align:center;
@@ -616,8 +542,6 @@ Full Timetable
 
                 </td>
 
-
-                <!-- ================= PERIOD LOOP ================= -->
 
                 {% set state = namespace(
                     skip_next=False
@@ -635,19 +559,12 @@ Full Timetable
 
                     {% else %}
 
-
-                        <!-- ================= CURRENT CELL ================= -->
-
                         {% set cell = namespace(
                             timetable=None,
                             faculties=[],
                             venues=[],
                             span=1
                         ) %}
-
-
-                        <!-- ================= SEARCH TIMETABLES ================= -->
-
                         {% for timetable in timetables %}
 
                             {% if timetable.get("day", "") == day %}
@@ -674,12 +591,6 @@ Full Timetable
                                     |trim
                                     |lower
                                 ) %}
-
-
-                                <!-- ================================= -->
-                                <!-- OEC ONE-PERIOD -->
-                                <!-- ================================= -->
-
                                 {% if
                                     raw_period == period
                                     and course_type == "oec"
@@ -711,11 +622,6 @@ Full Timetable
                                         {% set cell.timetable = timetable %}
 
                                     {% endif %}
-
-
-                                <!-- ================================= -->
-                                <!-- NORMAL ONE-PERIOD SUBJECT -->
-                                <!-- ================================= -->
 
                                 {% elif raw_period == period %}
 
@@ -768,10 +674,6 @@ Full Timetable
 
                                     {% endfor %}
 
-
-                                <!-- ================================= -->
-                                <!-- LAB V-VI -->
-                                <!-- ================================= -->
 
                                 {% elif
                                     period == "V"
@@ -832,11 +734,6 @@ Full Timetable
                                         {% endif %}
 
                                     {% endfor %}
-
-
-                                <!-- ================================= -->
-                                <!-- LAB VII-VIII -->
-                                <!-- ================================= -->
 
                                 {% elif
                                     period == "VII"
@@ -1154,19 +1051,13 @@ Full Timetable
                                             {{ cell.venues | unique | join(" / ") }}
 
                                         </div>
-
                                         {% endif %}
-
-
-                                        <!-- LAB -->
-
                                         {% if
                                             cell.timetable.get(
                                                 "course_type",
                                                 ""
                                             )|lower == "lab"
                                         %}
-
                                         <div style="
                                             margin-top:7px;
                                             font-size:10px;
@@ -1174,24 +1065,12 @@ Full Timetable
                                             color:#2563eb;
                                             letter-spacing:0.5px;
                                         ">
-
                                             LAB
-
                                         </div>
-
                                         {% endif %}
-
-
                                     {% endif %}
-
                                 </div>
-
-
                             {% else %}
-
-
-                                <!-- ================= EMPTY SLOT ================= -->
-
                                 <div style="
                                     min-height:105px;
                                     display:flex;
@@ -1207,36 +1086,19 @@ Full Timetable
                                     -
 
                                 </div>
-
-
                             {% endif %}
-
                         </td>
-
-
                     {% endif %}
-
                 {% endfor %}
-
             </tr>
-
             {% endfor %}
-
             </tbody>
-
         </table>
-
     </div>
-
 </div>
-
-
-<!-- ================= INFORMATION ================= -->
-
 <div class="content-card" style="
     margin-top:20px;
 ">
-
     <p style="
         color:#667085;
         font-size:13px;
@@ -1248,12 +1110,7 @@ Full Timetable
         OEC displays only the course selected by the student.
 
     </p>
-
 </div>
-
-
-<!-- ================= TODAY ================= -->
-
 <div
     class="content-card"
     style="
@@ -1265,7 +1122,6 @@ Full Timetable
         gap:15px;
     "
 >
-
     <div>
 
         <h2>
@@ -1278,27 +1134,19 @@ Full Timetable
         ">
 
             Quickly view only today's timetable.
-
         </p>
-
     </div>
-
-
     <a
         href="{{ url_for('today') }}"
         class="btn-primary"
     >
-
         📅 Today's Timetable
 
     </a>
     <a href="{{ url_for('download_timetable') }}">
     📥 Download Timetable
 </a>
-
 </div>
-<!-- FACULTY PHOTO POPUP -->
-
 <div id="facultyPhotoModal"
      style="display:none; position:fixed; inset:0;
             background:rgba(0,0,0,0.6); z-index:9999;
@@ -1307,14 +1155,12 @@ Full Timetable
     <div style="background:white; padding:25px;
                 border-radius:15px; text-align:center;
                 width:300px; max-width:90%;">
-
         <button onclick="closeFacultyPhoto()"
                 style="float:right; border:none;
                        background:none; font-size:22px;
                        cursor:pointer;">&times;</button>
 
         <h2 id="facultySubject"></h2>
-
         <img id="facultyPhoto"
              src=""
              alt="Faculty photo"
@@ -1325,12 +1171,10 @@ Full Timetable
         <p id="facultyName"></p>
     </div>
 </div>
-
 <script>
 function showFacultyPhoto(subject) {
     let photo = "";
     let name = "";
-
     if (subject.includes("AI") ||
         subject.includes("ARTIFICIAL INTELLIGENCE")) {
         photo = "{{ url_for('static', filename='faculty_photos/ai_faculty.jpg') }}";
@@ -1342,16 +1186,13 @@ function showFacultyPhoto(subject) {
         alert("Photo is not configured for this subject yet.");
         return;
     }
-
     document.getElementById("facultySubject").textContent = subject;
     document.getElementById("facultyPhoto").src = photo;
     document.getElementById("facultyName").textContent = name;
     document.getElementById("facultyPhotoModal").style.display = "flex";
 }
-
 function closeFacultyPhoto() {
     document.getElementById("facultyPhotoModal").style.display = "none";
 }
 </script>
-
 {% endblock %}

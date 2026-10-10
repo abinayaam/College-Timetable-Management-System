@@ -1,32 +1,20 @@
 {% extends "base.html" %}
-
 {% block title %}
 Notifications - College Timetable
 {% endblock %}
-
 {% block page_title %}
 Notifications
 {% endblock %}
-
 {% block content %}
-
 <div class="welcome-card">
-
     <h1>🔔 Notifications</h1>
-
     <p>
         Stay updated with the latest timetable changes.
     </p>
-
 </div>
-
-
 <div class="content-card" style="margin-top:20px;">
-
     {% if notifications %}
-
         {% for notification in notifications %}
-
         <div style="
             padding:18px;
             margin-bottom:15px;
@@ -34,7 +22,6 @@ Notifications
             border-radius:12px;
             background:#ffffff;
         ">
-
             <div style="
                 display:flex;
                 justify-content:space-between;
@@ -42,49 +29,34 @@ Notifications
                 gap:15px;
                 flex-wrap:wrap;
             ">
-
                 <div>
-
                     <div style="
                         font-size:15px;
                         font-weight:700;
                         color:#172033;
                         margin-bottom:8px;
                     ">
-
                         🔔 Timetable Update
-
                     </div>
-
-
                     <div style="
                         font-size:14px;
                         color:#475467;
                         line-height:1.6;
                     ">
-
                         {{ notification.get(
                             "message",
                             "Timetable has been updated."
                         ) }}
-
                     </div>
-
-
                     {% if notification.get("day") %}
-
                     <div style="
                         margin-top:8px;
                         font-size:12px;
                         color:#667085;
                     ">
-
                         📅 {{ notification.get("day") }}
-
                     </div>
-
                     {% endif %}
-
                     {% if notification.get("reason") %}
 <div style="
     margin-top:8px;
@@ -95,56 +67,40 @@ Notifications
     {{ notification.get("reason") }}
 </div>
 {% endif %}
-
                 </div>
-
-
                 <div style="
                     font-size:11px;
                     color:#98a2b3;
                     white-space:nowrap;
                 ">
-
                     {{ notification.get("created_at", "") }}
 
                 </div>
-
             </div>
-
         </div>
-
         {% endfor %}
-
     {% else %}
-
         <div style="
             text-align:center;
             padding:50px 20px;
             color:#98a2b3;
         ">
-
             <div style="
                 font-size:45px;
                 margin-bottom:12px;
             ">
                 🔔
             </div>
-
             <h3 style="
                 color:#344054;
                 margin-bottom:8px;
             ">
                 No Notifications
             </h3>
-
             <p style="font-size:13px;">
                 You are all caught up. No timetable changes available.
             </p>
-
         </div>
-
     {% endif %}
-
 </div>
-
 {% endblock %}

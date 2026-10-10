@@ -1,21 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Login | College Timetable Management System</title>
-
     <style>
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-
         body {
             font-family: "Segoe UI", Arial, sans-serif;
             min-height: 100vh;
@@ -26,29 +20,24 @@
             padding: 20px;
             color: #1f2937;
         }
-
         .login-wrapper {
             width: 100%;
             max-width: 420px;
         }
-
         .brand {
             text-align: center;
             margin-bottom: 24px;
         }
-
         .brand h1 {
             font-size: 27px;
             font-weight: 700;
             color: #172033;
             margin-bottom: 7px;
         }
-
         .brand p {
             color: #667085;
             font-size: 14px;
         }
-
         .login-card {
             background: #ffffff;
             border: 1px solid #e4e7ec;
@@ -56,23 +45,19 @@
             padding: 32px;
             box-shadow: 0 8px 25px rgba(16, 24, 40, 0.06);
         }
-
         .login-title {
             margin-bottom: 25px;
         }
-
         .login-title h2 {
             font-size: 21px;
             font-weight: 650;
             color: #172033;
             margin-bottom: 6px;
         }
-
         .login-title p {
             color: #667085;
             font-size: 13px;
         }
-
         .error-message {
             background: #fef2f2;
             color: #b42318;
@@ -82,11 +67,9 @@
             margin-bottom: 18px;
             font-size: 13px;
         }
-
         .form-group {
             margin-bottom: 18px;
         }
-
         .form-group label {
             display: block;
             margin-bottom: 7px;
@@ -94,7 +77,6 @@
             font-size: 13px;
             font-weight: 600;
         }
-
         .form-group input,
         .form-group select {
             width: 100%;
@@ -108,17 +90,14 @@
             outline: none;
             transition: 0.2s;
         }
-
         .form-group input::placeholder {
             color: #98a2b3;
         }
-
         .form-group input:focus,
         .form-group select:focus {
             border-color: #2563eb;
             box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.08);
         }
-
         .login-btn {
             width: 100%;
             height: 46px;
@@ -132,175 +111,105 @@
             cursor: pointer;
             transition: 0.2s;
         }
-
         .login-btn:hover {
             background: #1d4ed8;
         }
-
         .footer-text {
             text-align: center;
             margin-top: 20px;
             color: #98a2b3;
             font-size: 12px;
         }
-
         @media (max-width: 480px) {
-
             .brand h1 {
                 font-size: 23px;
             }
-
             .login-card {
                 padding: 25px 22px;
             }
-
         }
-
     </style>
-
 </head>
-
-
 <body>
-
 <div class="login-wrapper">
-
-
-    <!-- Header -->
-
     <div class="brand">
-
         <h1>
             College Timetable Management System
         </h1>
-
         <p>
             Academic Timetable Portal
         </p>
-
     </div>
-
-
-    <!-- Login Card -->
-
     <div class="login-card">
-
         <div class="login-title">
-
             <h2>
                 Sign In
             </h2>
-
             <p>
                 Enter your details to continue
             </p>
-
         </div>
-
-
         {% if error %}
-
         <div class="error-message">
             {{ error }}
         </div>
-
         {% endif %}
-
-
         <form method="POST" action="/">
-
-
-            <!-- Username -->
-
             <div class="form-group">
-
                 <label>
                     Username / Roll Number
                 </label>
-
                 <input
                     type="text"
                     name="username"
                     placeholder="Enter username or roll number"
                     required
                 >
-
             </div>
-
-
-            <!-- Password -->
-
             <div class="form-group">
-
                 <label>
                     Password
                 </label>
-
                 <input
                     type="password"
                     name="password"
                     placeholder="Enter password"
                     required
                 >
-
             </div>
-
-
-            <!-- Role -->
-
             <div class="form-group">
-
                 <label>
                     Login As
                 </label>
-
                 <select
                     name="role"
                     required
                 >
-
                     <option value="">
                         Select role
                     </option>
-
                     <option value="admin">
                         Admin
                     </option>
-
                     <option value="staff">
                         Staff
                     </option>
-
                     <option value="student">
                         Student
                     </option>
-
                 </select>
-
             </div>
-
-
-            <!-- Login -->
-
             <button
                 type="submit"
                 class="login-btn"
             >
                 Sign In
             </button>
-
         </form>
-
-
     </div>
-
-
     <div class="footer-text">
         College Timetable Management System
     </div>
-
 </div>
-
 </body>
-
 </html>

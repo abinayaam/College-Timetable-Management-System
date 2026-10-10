@@ -1,278 +1,169 @@
 {% extends "base.html" %}
-
 {% block title %}
 Add Timetable
 {% endblock %}
-
 {% block page_title %}
 Add Timetable
 {% endblock %}
-
 {% block content %}
-
 <div class="form-card">
-
     <div style="margin-bottom:30px;">
         <h1>Add New Timetable</h1>
-
         <p class="subtitle">
             Create a timetable with faculty, batch, lab and OEC details.
         </p>
     </div>
-
-
     <form method="POST" id="timetableForm">
-
-
-        <!-- ===================================================== -->
-        <!-- BASIC INFORMATION -->
-        <!-- ===================================================== -->
-
-        <div class="form-section">
-
+        <div class="form-section"></div>
             <div class="form-section-title">
                 BASIC INFORMATION
             </div>
-
             <div class="form-grid">
-
                 <div class="form-group">
-
                     <label>
                         Department
                     </label>
-
                     <input
                         type="text"
                         name="department"
                         placeholder="Example: IT"
                         required
                     >
-
                 </div>
-
-
                 <div class="form-group">
-
                     <label>
                         Year
                     </label>
-
                     <select name="year" required>
-
                         <option value="">
                             Select Year
                         </option>
-
                         <option value="1">
                             1st Year
                         </option>
-
                         <option value="2">
                             2nd Year
                         </option>
-
                         <option value="3">
                             3rd Year
                         </option>
-
                         <option value="4">
                             4th Year
                         </option>
-
                     </select>
-
                 </div>
-
             </div>
-
         </div>
-
-
-
-        <!-- ===================================================== -->
-        <!-- CLASS SCHEDULE -->
-        <!-- ===================================================== -->
-
         <div class="form-section">
-
             <div class="form-section-title">
                 CLASS SCHEDULE
             </div>
-
             <div class="form-grid">
-
-                <!-- DAY -->
-
                 <div class="form-group">
-
                     <label>
                         Day
                     </label>
-
                     <select name="day" required>
-
                         <option value="">
                             Select Day
                         </option>
-
                         <option value="Monday">
                             Monday
                         </option>
-
                         <option value="Tuesday">
                             Tuesday
                         </option>
-
                         <option value="Wednesday">
                             Wednesday
                         </option>
-
                         <option value="Thursday">
                             Thursday
                         </option>
-
                         <option value="Friday">
                             Friday
                         </option>
-
                         <option value="Saturday">
                             Saturday
                         </option>
-
                     </select>
-
                 </div>
-
-
-                <!-- PERIOD -->
-
                 <div class="form-group">
-
                     <label>
                         Period
                     </label>
-
                     <select name="period" id="period" required>
-
                         <option value="">
                             Select Period
                         </option>
-
                         <option value="I">
                             I
                         </option>
-
                         <option value="II">
                             II
                         </option>
-
                         <option value="III">
                             III
                         </option>
-
                         <option value="IV">
                             IV
                         </option>
-
                         <option value="V">
                             V
                         </option>
-
                         <option value="VI">
                             VI
                         </option>
-
                         <option value="VII">
                             VII
                         </option>
-
                         <option value="VIII">
                             VIII
                         </option>
-
-                        <!-- TWO PERIOD LABS -->
-
                         <option value="I-II">
                             I-II
                         </option>
-
                         <option value="III-IV">
                             III-IV
                         </option>
-
                         <option value="V-VI">
                             V-VI
                         </option>
-
                         <option value="VII-VIII">
                             VII-VIII
                         </option>
-
                     </select>
-
                 </div>
-
-
-                <!-- START TIME -->
-
                 <div class="form-group">
-
                     <label>
                         Start Time
                     </label>
-
                     <input
                         type="time"
                         name="start_time"
                         required
                     >
-
                 </div>
-
-
-                <!-- END TIME -->
-
                 <div class="form-group">
-
                     <label>
                         End Time
                     </label>
-
                     <input
                         type="time"
                         name="end_time"
                         required
                     >
-
                 </div>
-
             </div>
-
         </div>
-
-
-
-        <!-- ===================================================== -->
-        <!-- CLASS DETAILS -->
-        <!-- ===================================================== -->
-
         <div class="form-section">
-
             <div class="form-section-title">
                 CLASS DETAILS
             </div>
-
             <div class="form-grid">
-
-                <!-- SUBJECT -->
-
                 <div class="form-group">
-
                     <label>
                         Subject
                     </label>
-
                     <input
                         type="text"
                         name="subject"
@@ -280,92 +171,57 @@ Add Timetable
                         placeholder="Example: AI"
                         required
                     >
-
                 </div>
-
-
-                <!-- COURSE TYPE -->
-
                 <div class="form-group">
-
                     <label>
                         Course Type
                     </label>
-
                     <select
                         name="course_type"
                         id="course_type"
                         required
                     >
-
                         <option value="">
                             Select Course Type
                         </option>
-
                         <option value="Core">
                             Core
                         </option>
-
                         <option value="Domain">
                             Domain
                         </option>
-
                         <option value="Vertical">
                             Vertical
                         </option>
-
                         <option value="Lab">
                             Lab
                         </option>
-
                         <option value="Elective">
                             Elective
                         </option>
-
                         <option value="OEC">
                             OEC
                         </option>
-
                     </select>
-
                 </div>
-
             </div>
-
         </div>
-
-
-
-        <!-- ===================================================== -->
-        <!-- NORMAL FACULTY / BATCH ALLOCATION -->
-        <!-- ===================================================== -->
-
         <div
             class="form-section"
             id="normalAllocationSection"
         >
-
             <div class="form-section-title">
                 FACULTY & BATCH ALLOCATION
             </div>
-
             <p style="
                 color:#667085;
                 font-size:13px;
                 margin-bottom:18px;
             ">
-
                 Assign faculty members to one or more batches.
                 For lab classes, assign the venue for each batch.
-
             </p>
-
-
             <div id="allocation-container">
-
-
-                <!-- FIRST ALLOCATION -->
-
                 <div
                     class="allocation-row"
                     style="
@@ -380,16 +236,10 @@ Add Timetable
                         border-radius:12px;
                     "
                 >
-
-
-                    <!-- FACULTY -->
-
                     <div class="form-group">
-
                         <label>
                             Faculty
                         </label>
-
                         <input
                             type="text"
                             name="faculty[]"
@@ -397,18 +247,11 @@ Add Timetable
                             placeholder="Example: RS"
                             required
                         >
-
                     </div>
-
-
-                    <!-- BATCH -->
-
                     <div class="form-group">
-
                         <label>
                             Batch
                         </label>
-
                         <input
                             type="text"
                             name="batch[]"
@@ -416,40 +259,27 @@ Add Timetable
                             placeholder="Example: A,B"
                             required
                         >
-
                         <small style="
                             color:#667085;
                             margin-top:5px;
                         ">
                             Enter multiple batches like A,B
                         </small>
-
                     </div>
-
-
-                    <!-- VENUE -->
-
                     <div
                         class="form-group venue-wrapper"
                         style="display:none;"
                     >
-
                         <label>
                             Venue
                         </label>
-
                         <input
                             type="text"
                             name="venue[]"
                             class="venue-input"
                             placeholder="Example: UG LAB I"
                         >
-
                     </div>
-
-
-                    <!-- REMOVE -->
-
                     <button
                         type="button"
                         class="btn-delete remove-allocation"
@@ -459,16 +289,9 @@ Add Timetable
                             height:40px;
                         "
                     >
-                        Remove
                     </button>
-
                 </div>
-
             </div>
-
-
-            <!-- ADD NORMAL ALLOCATION -->
-
             <button
                 type="button"
                 id="addAllocation"
@@ -481,43 +304,25 @@ Add Timetable
             >
                 + Add Faculty / Batch
             </button>
-
         </div>
-
-
-
-        <!-- ===================================================== -->
-        <!-- OEC SECTION -->
-        <!-- ===================================================== -->
-
         <div
             class="form-section"
             id="oecSection"
             style="display:none;"
         >
-
             <div class="form-section-title">
                 OEC COURSE ALLOCATION
             </div>
-
-
             <p style="
                 color:#667085;
                 font-size:13px;
                 margin-bottom:18px;
             ">
-
                 Add all OEC courses available in this period.
                 Students will see only the OEC course they selected.
 
             </p>
-
-
             <div id="oec-container">
-
-
-                <!-- FIRST OEC COURSE -->
-
                 <div
                     class="oec-row"
                     style="
@@ -532,88 +337,56 @@ Add Timetable
                         border-radius:12px;
                     "
                 >
-
-
-                    <!-- OEC COURSE -->
-
                     <div class="form-group">
-
                         <label>
                             OEC Course
                         </label>
-
                         <select
                             name="oec_course[]"
                             class="oec-field"
                         >
-
                             <option value="">
                                 Select OEC Course
                             </option>
-
                             <option value="DM">
                                 DM
                             </option>
-
                             <option value="PDD">
                                 PDD
                             </option>
-
                             <option value="3D Designing">
                                 3D Designing
                             </option>
-
                             <option value="DPIOT">
                                 DPIOT
                             </option>
-
                             <option value="Robotics">
                                 Robotics
                             </option>
-
                         </select>
-
                     </div>
-
-
-                    <!-- FACULTY -->
-
                     <div class="form-group">
-
                         <label>
                             Faculty
                         </label>
-
                         <input
                             type="text"
                             name="oec_faculty[]"
                             class="oec-field"
                             placeholder="Example: CHOOD"
                         >
-
                     </div>
-
-
-                    <!-- DEPARTMENT -->
-
                     <div class="form-group">
-
                         <label>
                             Department
                         </label>
-
                         <input
                             type="text"
                             name="oec_department[]"
                             class="oec-field"
                             placeholder="Example: IT"
                         >
-
                     </div>
-
-
-                    <!-- REMOVE -->
-
                     <button
                         type="button"
                         class="btn-delete remove-oec"
@@ -623,15 +396,10 @@ Add Timetable
                             height:40px;
                         "
                     >
-                        Remove
                     </button>
-
                 </div>
-
             </div>
-
-
-            <!-- ADD OEC COURSE -->
+            
 
             <button
                 type="button"

@@ -1,94 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
-
     <title>
         {% block title %}
         College Timetable
         {% endblock %}
     </title>
-
     <link rel="stylesheet"
           href="{{ url_for('static', filename='css/style.css') }}">
-
 </head>
-
-
 <body>
-
 <div class="dashboard-layout">
-
-
-    <!-- ================= SIDEBAR ================= -->
-
     <aside class="sidebar">
-
         <div class="sidebar-logo">
             📚 College Timetable
         </div>
-
-
         <nav class="sidebar-menu">
-
-
-            <!-- COMMON -->
-
             <a href="{{ url_for('dashboard') }}">
                 🏠 Dashboard
             </a>
-
-
-            <!-- ================= ADMIN ================= -->
-
             {% if session.get("role") == "admin" %}
-
                 <a href="{{ url_for('view_timetable') }}">
                     📋 Manage Timetable
                 </a>
-
-
-            <!-- ================= STAFF ================= -->
-
             {% elif session.get("role") == "staff" %}
-
                 <a href="{{ url_for('add_timetable') }}">
                     ➕ Add Timetable
                 </a>
-
                 <a href="{{ url_for('view_timetable') }}">
                     📋 Manage Timetable
                 </a>
-
                 <a href="{{ url_for('saturday_booking') }}">
                     📅 Saturday Booking
                 </a>
-
                 <a href="{{ url_for('staff_announcement') }}">
     📢 Announcement
 </a>
                   <a href="{{ url_for('ai_assistant') }}" class="sidebar-link">
                  🤖 AI Assistant
 </a>
-
-
-            <!-- ================= STUDENT ================= -->
-
             {% elif session.get("role") == "student" %}
-
                 <a href="{{ url_for('today') }}">
                     📅 Today's Timetable
                 </a>
-
                 <a href="{{ url_for('student') }}">
                     🗓 Full Timetable
                 </a>
-
                 <a href="{{ url_for('notifications_page') }}">
                     🔔 Notifications
                 </a>
@@ -96,84 +56,39 @@
     🤖 AI Assistant
 </a>
             {% endif %}
-
-
-            <!-- LOGOUT -->
-
             <a href="{{ url_for('logout') }}">
                 🚪 Logout
             </a>
-
         </nav>
-
     </aside>
-
-
-
-    <!-- ================= MAIN CONTENT ================= -->
-
     <main class="main-content">
-
-
-        <!-- TOP BAR -->
-
         <header class="topbar">
-
             <h2>
                 {% block page_title %}
                 Dashboard
                 {% endblock %}
             </h2>
-
-
             <div class="topbar-user">
-
                 <span class="user-name">
-
                     {% if session.get("role") == "staff" %}
-
                         {{ session.get("staff_name") }}
-
                     {% elif session.get("role") == "student" %}
-
                         {{ session.get("student_name") }}
-
                     {% else %}
-
                         Admin
-
                     {% endif %}
-
                 </span>
-
-
                 <a href="{{ url_for('logout') }}"
                    class="logout-btn">
-
                     Logout
-
                 </a>
-
             </div>
-
         </header>
-
-
-
-        <!-- PAGE CONTENT -->
-
         <section class="page-content">
-
             {% block content %}
             {% endblock %}
-
         </section>
-
-
     </main>
-
 </div>
-
 </body>
-
 </html>

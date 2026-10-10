@@ -1,117 +1,77 @@
 {% extends "base.html" %}
-
 {% block title %}
 Manage Timetable
 {% endblock %}
-
 {% block page_title %}
 Manage Timetable
 {% endblock %}
-
 {% block content %}
-
 <div class="welcome-card">
-
     <h1>Manage Timetable</h1>
-
     <p>
         Search, filter and manage all timetable records.
     </p>
-
 </div>
-
-
-<!-- Search and Filters -->
 <div class="filter-card">
-
     <form method="GET">
-
         <div class="filter-grid">
-
             <input
                 type="text"
                 name="search"
                 placeholder="Search subject, faculty or venue..."
                 value="{{ search }}"
             >
-
             <select name="day">
-
                 <option value="">All Days</option>
-
                 <option value="Monday"
                     {% if selected_day == "Monday" %}selected{% endif %}>
                     Monday
                 </option>
-
                 <option value="Tuesday"
                     {% if selected_day == "Tuesday" %}selected{% endif %}>
                     Tuesday
                 </option>
-
                 <option value="Wednesday"
                     {% if selected_day == "Wednesday" %}selected{% endif %}>
                     Wednesday
                 </option>
-
                 <option value="Thursday"
                     {% if selected_day == "Thursday" %}selected{% endif %}>
                     Thursday
                 </option>
-
                 <option value="Friday"
                     {% if selected_day == "Friday" %}selected{% endif %}>
                     Friday
                 </option>
-
             </select>
-
-
             <select name="batch">
-
                 <option value="">All Batches</option>
-
                 {% for batch_name in ["A", "B", "C", "D", "E", "F", "G"] %}
-
                     <option value="{{ batch_name }}"
                         {% if selected_batch == batch_name %}selected{% endif %}>
                         Batch {{ batch_name }}
                     </option>
-
                 {% endfor %}
-
             </select>
-
-
             <input
                 type="text"
                 name="department"
                 placeholder="Department"
                 value="{{ selected_department }}"
             >
-
-
             <button type="submit" class="btn-primary">
                 Search / Filter
             </button>
-
         </div>
-
     </form>
-
 </div>
-
-
-<!-- Timetable Table -->
 <div class="table-card">
-
     <div style="
         display: flex;
         justify-content: space-between;
         align-items: center;
         margin-bottom: 20px;
     ">
-
         <div>
             <h2>Timetable Records</h2>
 
@@ -119,21 +79,14 @@ Manage Timetable
                 {{ timetables|length }} record(s) found
             </p>
         </div>
-
         <a href="{{ url_for('add_timetable') }}"
            class="btn-primary">
             + Add Timetable
         </a>
-
     </div>
-
-
     {% if timetables %}
-
     <table>
-
         <thead>
-
             <tr>
                 <th>Department</th>
                 <th>Year</th>
@@ -147,44 +100,27 @@ Manage Timetable
                 <th>Course Type</th>
                 <th>Actions</th>
             </tr>
-
         </thead>
-
-
         <tbody>
-
         {% for timetable in timetables %}
-
             <tr>
-
                 <td>{{ timetable.department }}</td>
-
                 <td>{{ timetable.year }}</td>
-
                 <td>{{ timetable.day }}</td>
-
                 <td>{{ timetable.period }}</td>
-
                 <td>
                     {{ timetable.start_time }}
                     -
                     {{ timetable.end_time }}
                 </td>
-
                 <td>
                     <strong>{{ timetable.subject }}</strong>
                 </td>
-
                 <td>{{ timetable.faculty }}</td>
-
                 <td>{{ timetable.batch }}</td>
-
                 <td>{{ timetable.venue }}</td>
-
                 <td>{{ timetable.course_type }}</td>
-
                 <td>
-
                     <a
                         href="{{ url_for('edit_timetable', id=timetable._id) }}"
                         class="btn-edit"
@@ -199,35 +135,22 @@ Manage Timetable
                     >
                         Delete
                     </a>
-
                 </td>
-
             </tr>
-
         {% endfor %}
-
         </tbody>
-
     </table>
-
     {% else %}
-
         <div style="
             text-align: center;
             padding: 50px 20px;
             color: #6b7280;
         ">
-
             <h3>No timetable records found</h3>
-
             <p style="margin-top: 8px;">
                 Try another search or filter.
             </p>
-
         </div>
-
     {% endif %}
-
 </div>
-
 {% endblock %}
