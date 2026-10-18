@@ -1,0 +1,6 @@
+
+Flask
+pymongo[srv]
+python-dotenv
+gunicorn
+reportlab
